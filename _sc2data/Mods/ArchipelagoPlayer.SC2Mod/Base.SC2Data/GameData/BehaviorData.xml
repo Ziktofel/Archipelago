@@ -4354,6 +4354,15 @@
         <Duration value="0.1"/>
         <ExpireEffect value="AP_MercFirebatOptimizedLogisticsMorph"/>
     </CBehaviorBuff>
+    <CBehaviorBuff id="PredatorKinematicAlgorithms">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <DisableValidatorArray value="MovingFast"/>
+        <Modification>
+            <LifeArmorBonus value="3"/>
+            <StateFlags index="SuppressCollision" value="1"/>
+        </Modification>
+    </CBehaviorBuff>
     <CBehaviorBuff id="AP_SOAHeroicShieldImmunity">
         <Alignment value="Positive"/>
         <InfoIcon value="Assets\Textures\btn-ability-spearofadun-guardianshell.dds"/>
