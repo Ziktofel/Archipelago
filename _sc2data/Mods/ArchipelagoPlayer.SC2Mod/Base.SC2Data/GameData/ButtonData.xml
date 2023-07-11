@@ -2971,4 +2971,12 @@
         <HotkeyAlias value="Zealot"/>
         <Universal value="1"/>
     </CButton>
+    <CButton id="AP_PredatorKinematicAlgorithms">
+        <Icon value="Assets\Textures\btn-upgrade-stetmann-lurkertunnelingburstrange.dds"/>
+        <AlertIcon value="Assets\Textures\btn-upgrade-stetmann-lurkertunnelingburstrange.dds"/>
+        <EditorCategories value="Race:Terran"/>
+    </CButton>
+    <CButton id="ArchipelagoUnlocksButton">
+        <Icon value="AP\Assets\Textures\ArchipelagoLogoSC2sized.dds"/>
+    </CButton>
 </Catalog>
