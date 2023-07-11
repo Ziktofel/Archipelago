@@ -8,6 +8,10 @@
         <Flags index="TechTreeCheat" value="0"/>
         <Count Link="AP_HotSHaveRaptor" State="CompleteOnly"/>
     </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="AP_CountUpgradePredatorKinematicAlgorithmsCompleteOnly">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="AP_PredatorKinAlgs" State="CompleteOnly"/>
+    </CRequirementCountUpgrade>
     <CRequirementAllowUnit id="AP_AllowUnitMarine">
         <Link value="AP_Marine"/>
     </CRequirementAllowUnit>

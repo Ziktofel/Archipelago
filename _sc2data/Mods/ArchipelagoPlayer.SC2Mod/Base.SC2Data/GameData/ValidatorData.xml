@@ -10,6 +10,10 @@
         <Find value="1"/>
         <Value value="AP_HaveHotSHaveRaptor"/>
     </CValidatorPlayerRequirement>
+    <CValidatorPlayerRequirement id="AP_PredatorKinAlgsResearched">
+        <Find value="1"/>
+        <Value value="AP_PredatorKinAlgsResearched"/>
+    </CValidatorPlayerRequirement>
     <CValidatorPlayerRequirement id="AP_HaveHotSImpaler">
         <Find value="1"/>
         <Value value="AP_HaveHotSImpaler"/>
@@ -3753,6 +3757,16 @@
         <Compare value="GE"/>
         <Value value="2.5"/>
     </CValidatorUnitCompareSpeed>
+    <CValidatorUnitType id="AP_TargetIsAPPredator">
+        <Value value="AP_Predator"/>
+    </CValidatorUnitType>
+    <CValidatorUnitType id="AP_TargetIsVanillaPredator">
+        <Value value="Predator"/>
+    </CValidatorUnitType>
+    <CValidatorCombine id="AP_TargetIsPredator">
+        <CombineArray value="AP_TargetIsVanillaPredator"/>
+        <CombineArray value="AP_TargetIsAPPredator"/>
+    </CValidatorCombine>
     <CValidatorLocationEnumArea id="AP_VoidZealotWhirlwindCheck">
         <WhichLocation Value="CasterUnit"/>
         <AreaArray Compare="GE" Count="2" Radius="1.5"/>

@@ -30,6 +30,10 @@
         <EditorCategories value="Race:Zerg,TechType:Upgrade"/>
         <NodeArray index="Show" Link="AP_CountUpgradeHotSMutaliskBroodlordCompleteOnly"/>
     </CRequirement>
+    <CRequirement id="AP_PredatorKinAlgsResearched">
+        <EditorCategories value="TechType:Upgrade,Race:Terran"/>
+        <NodeArray index="Use" Link="AP_CountUpgradePredatorKinematicAlgorithmsCompleteOnly"/>
+    </CRequirement>
     <CRequirement id="AP_NotHotSHaveSwarmHostSplit">
         <EditorCategories value="Race:Zerg,TechType:Upgrade"/>
         <NodeArray index="Show" Link="AP_NotCountUpgradeHotSHaveSwarmHostSplitACompleteOnly"/>

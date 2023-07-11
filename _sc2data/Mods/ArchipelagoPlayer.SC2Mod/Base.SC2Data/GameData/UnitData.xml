@@ -2816,7 +2816,8 @@
         <AbilArray Link="move"/>
         <AbilArray Link="stop"/>
         <WeaponArray Link="AP_Predator"/>
-        <BehaviorArray Link="PredatorKinematicAlgorithms"/>
+        <BehaviorArray Link="AP_PredatorKinematicAlgorithms"/>
+        <BehaviorArray Link="AP_PredatorKinematicAlgsCollision"/>
         <CardLayouts>
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
             <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
@@ -2825,6 +2826,26 @@
             <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
             <LayoutButtons Face="AcquireMove" Type="AbilCmd" AbilCmd="move,AcquireMove" Row="0" Column="4"/>
             <LayoutButtons Face="AP_RetributionField" Type="Passive" Row="2" Column="0"/>
+            <LayoutButtons>
+                <Face value="AP_PredatorKinematicAlgorithms"/>
+                <Type value="Passive"/>
+                <Behavior value="AP_PredatorKinematicAlgorithms"/>
+                <Requirements value="AP_PredatorKinAlgsResearched"/>
+                <Row value="2"/>
+                <Column value="1"/>
+            </LayoutButtons>
+            <LayoutButtons Face="ArchipelagoUnlocksButton" Type="Submenu" SubmenuCardId="0002" Row="2" Column="4"/>
+        </CardLayouts>
+        <CardLayouts CardId="AP">
+            <LayoutButtons>
+                <Face value="AP_PredatorKinematicAlgorithms"/>
+                <Type value="Passive"/>
+                <Behavior value="AP_PredatorKinematicAlgorithms"/>
+                <Requirements value="AP_PredatorKinAlgsResearched"/>
+                <Row value="0"/>
+                <Column value="0"/>
+            </LayoutButtons>
+            <LayoutButtons Face="Cancel" Type="CancelSubmenu" ShowInGlossary="0" Row="2" Column="4"/>
         </CardLayouts>
         <Radius value="0.625"/>
         <SeparationRadius value="0.625"/>
