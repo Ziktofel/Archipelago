@@ -4357,7 +4357,7 @@
     <CBehaviorBuff id="AP_PredatorMobilityUpgrade">
         <InfoFlags index="Hidden" value="1"/>
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
-        <DisableValidatorArray value="MovingFast"/>
+        <DisableValidatorArray value="AP_MovingFast"/>
         <DisableValidatorArray value="AP_PredatorMobilityUpgradeResearched"/>
         <Modification>
             <StateFlags index="SuppressCollision" value="1"/>
