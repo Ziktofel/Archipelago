@@ -6,9 +6,9 @@
     <CValidatorCombine default="1" id="AP_SCBW_Behavior">
         <Type value="And"/>
     </CValidatorCombine>
-    <CValidatorPlayerRequirement id="AP_PredatorKinAlgsResearched">
+    <CValidatorPlayerRequirement id="AP_PredatorMobilityUpgradeResearched">
         <Find value="1"/>
-        <Value value="AP_PredatorKinAlgsResearched"/>
+        <Value value="AP_PredatorMobilityUpgradeResearched"/>
     </CValidatorPlayerRequirement>
     <CValidatorPlayerRequirement id="AP_HaveHotSImpaler">
         <Find value="1"/>

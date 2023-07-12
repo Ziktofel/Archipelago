@@ -2793,6 +2793,7 @@
         <EditorCategories value="Race:Terran"/>
         <Universal value="1"/>
     </CButton>
+    <CButton id="AP_PredatorMobilityUpgrade">
     <CButton id="AP_VoidZealotWhirlwind">
         <Icon value="Assets\Textures\BTN-Ability-Protoss-Whirlwind.dds"/>
     </CButton>
@@ -2975,8 +2976,5 @@
         <Icon value="Assets\Textures\btn-upgrade-stetmann-lurkertunnelingburstrange.dds"/>
         <AlertIcon value="Assets\Textures\btn-upgrade-stetmann-lurkertunnelingburstrange.dds"/>
         <EditorCategories value="Race:Terran"/>
-    </CButton>
-    <CButton id="ArchipelagoUnlocksButton">
-        <Icon value="AP\Assets\Textures\ArchipelagoLogoSC2sized.dds"/>
     </CButton>
 </Catalog>

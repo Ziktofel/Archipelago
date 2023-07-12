@@ -512,7 +512,7 @@
         <AffectedUnitArray value="AP_BroodLord"/>
         <AffectedUnitArray value="AP_Broodling"/>
     </CUpgrade>
-    <CUpgrade id="AP_PredatorKinAlgs">
+    <CUpgrade id="AP_PredatorMobilityUpgrade">
         <Flags index="UpgradeCheat" value="0"/>
         <Icon value="Assets\Textures\btn-upgrade-stetmann-lurkertunnelingburstrange.dds"/>
         <Alert value="ResearchComplete"/>
@@ -4841,4 +4841,5 @@
         <EditorCategories value="Race:Protoss,UpgradeType:Talents"/>
         <AffectedUnitArray value="AP_WarpGate"/>
     </CUpgrade>
+    <CUpgrade id="AP_PredatorMobilityUpgrade"/>
 </Catalog>
