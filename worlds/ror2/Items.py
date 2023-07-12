@@ -20,8 +20,7 @@ item_table: Dict[str, int] = {
     "Item Scrap, Green":    37009,
     "Item Scrap, Red":      37010,
     "Item Scrap, Yellow":   37011,
-    "Void Item":            37012,
-    "Beads of Fealty":      37013
+    "Void Item":            37012
 }
 
 # 37700 - 37699

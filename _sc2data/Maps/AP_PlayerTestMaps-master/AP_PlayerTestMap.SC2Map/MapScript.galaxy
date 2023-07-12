@@ -1,0 +1,104 @@
+//==================================================================================================
+// 
+// Generated Map Script
+// 
+// Name:   Just Another StarCraft II Map
+// 
+//==================================================================================================
+include "TriggerLibs/NativeLib"
+include "Lib15EF4C78"
+
+//--------------------------------------------------------------------------------------------------
+// Library Initialization
+//--------------------------------------------------------------------------------------------------
+void InitLibs () {
+    libNtve_InitLib();
+    lib15EF4C78_InitLib();
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger Variables
+//--------------------------------------------------------------------------------------------------
+trigger gt_GrantUnitUpgrades;
+trigger gt_MaxSupply;
+trigger gt___init;
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: GrantUnitUpgrades
+//--------------------------------------------------------------------------------------------------
+bool gt_GrantUnitUpgrades_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libNtve_gf_SetUpgradeLevelForPlayer(1, "AP_SiegeTech", 1);
+    libNtve_gf_SetUpgradeLevelForPlayer(1, "AP_WraithCloak", 1);
+    libNtve_gf_SetUpgradeLevelForPlayer(1, "AP_BansheeCloak", 1);
+    libNtve_gf_SetUpgradeLevelForPlayer(1, "AP_YamatoCannon", 1);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_GrantUnitUpgrades_Init () {
+    gt_GrantUnitUpgrades = TriggerCreate("gt_GrantUnitUpgrades_Func");
+    TriggerAddEventMapInit(gt_GrantUnitUpgrades);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: MaxSupply
+//--------------------------------------------------------------------------------------------------
+bool gt_MaxSupply_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    PlayerModifyPropertyInt(1, c_playerPropSuppliesLimit, c_playerPropOperSetTo, 1000);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_MaxSupply_Init () {
+    gt_MaxSupply = TriggerCreate("gt_MaxSupply_Func");
+    TriggerAddEventMapInit(gt_MaxSupply);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: __init
+//--------------------------------------------------------------------------------------------------
+bool gt___init_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerExecute(lib15EF4C78_gt_ArchipelagoPlayerHandlersConstructor, true, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt___init_Init () {
+    gt___init = TriggerCreate("gt___init_Func");
+    TriggerAddEventMapInit(gt___init);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger Initialization
+//--------------------------------------------------------------------------------------------------
+void InitTriggers () {
+    gt_GrantUnitUpgrades_Init();
+    gt_MaxSupply_Init();
+    gt___init_Init();
+}
+
+//--------------------------------------------------------------------------------------------------
+// Map Initialization
+//--------------------------------------------------------------------------------------------------
+void InitMap () {
+    InitLibs();
+    InitTriggers();
+}

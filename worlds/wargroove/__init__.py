@@ -1,6 +1,6 @@
-import settings
+import os
 import string
-import typing
+import json
 
 from BaseClasses import Item, MultiWorld, Region, Location, Entrance, Tutorial, ItemClassification
 from .Items import item_table, faction_table
@@ -9,17 +9,6 @@ from .Regions import create_regions
 from .Rules import set_rules
 from ..AutoWorld import World, WebWorld
 from .Options import wargroove_options
-
-
-class WargrooveSettings(settings.Group):
-    class RootDirectory(settings.UserFolderPath):
-        """
-        Locate the Wargroove root directory on your system.
-        This is used by the Wargroove client, so it knows where to send communication files to
-        """
-        description = "Wargroove root directory"
-
-    root_directory: RootDirectory = RootDirectory("C:/Program Files (x86)/Steam/steamapps/common/Wargroove")
 
 
 class WargrooveWeb(WebWorld):
@@ -39,7 +28,6 @@ class WargrooveWorld(World):
     """
 
     option_definitions = wargroove_options
-    settings: typing.ClassVar[WargrooveSettings]
     game = "Wargroove"
     topology_present = True
     data_version = 1

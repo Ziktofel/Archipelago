@@ -2,6 +2,18 @@ from BaseClasses import ItemClassification, CollectionState
 from . import MessengerTestBase
 
 
+class NoLogicTest(MessengerTestBase):
+    options = {
+        "logic_level": "oob",
+        "goal": "power_seal_hunt",
+    }
+
+    def testChestAccess(self) -> None:
+        """Test to make sure we can win even though we can't reach the chest."""
+        self.assertEqual(self.can_reach_location("Shop Chest"), False)
+        self.assertBeatable(True)
+
+
 class AllSealsRequired(MessengerTestBase):
     options = {
         "shuffle_seals": "false",

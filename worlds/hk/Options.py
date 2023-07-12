@@ -111,7 +111,7 @@ shop_to_option = {
     "Iselda": "IseldaShopSlots",
     "Salubra": "SalubraShopSlots",
     "Leg_Eater": "LegEaterShopSlots",
-    "Salubra_(Requires_Charms)": "SalubraCharmShopSlots",
+    "Salubra_(Requires_Charms)": "IseldaShopSlots",
     "Egg_Shop": "EggShopSlots",
 }
 

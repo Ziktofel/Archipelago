@@ -3,8 +3,8 @@ import typing
 from typing import List, Set, Tuple, Dict
 from BaseClasses import Item, MultiWorld, Location, Tutorial, ItemClassification
 from worlds.AutoWorld import WebWorld, World
-from .Items import StarcraftWoLItem, item_table, filler_items, item_name_groups, get_full_item_list, \
-    get_basic_units
+from .Items import StarcraftWoLItem, filler_items, item_name_groups, get_item_table, get_full_item_list, \
+    get_basic_units, ItemData, upgrade_included_names
 from .Locations import get_locations
 from .Regions import create_regions
 from .Options import sc2wol_options, get_option_value
@@ -36,7 +36,7 @@ class SC2WoLWorld(World):
     web = Starcraft2WoLWebWorld()
     data_version = 4
 
-    item_name_to_id = {name: data.code for name, data in item_table.items()}
+    item_name_to_id = {name: data.code for name, data in get_full_item_list().items()}
     location_name_to_id = {location.name: location.code for location in get_locations(None, None)}
     option_definitions = sc2wol_options
 
@@ -62,9 +62,7 @@ class SC2WoLWorld(World):
             self.multiworld, self.player, get_locations(self.multiworld, self.player), self.location_cache
         )
 
-    def create_items(self):
-        setup_events(self.player, self.locked_locations, self.location_cache)
-
+    def generate_basic(self):
         excluded_items = get_excluded_items(self.multiworld, self.player)
 
         starter_items = assign_starter_items(self.multiworld, self.player, excluded_items, self.locked_locations)
@@ -76,6 +74,7 @@ class SC2WoLWorld(World):
         self.multiworld.itempool += pool
 
     def set_rules(self):
+        setup_events(self.player, self.locked_locations, self.location_cache)
         self.multiworld.completion_condition[self.player] = lambda state: state.has(self.victory_item, self.player)
 
     def get_filler_item_name(self) -> str:
@@ -108,16 +107,6 @@ def setup_events(player: int, locked_locations: typing.List[str], location_cache
 
 def get_excluded_items(multiworld: MultiWorld, player: int) -> Set[str]:
     excluded_items: Set[str] = set()
-
-    if get_option_value(multiworld, player, "upgrade_bonus") == 1:
-        excluded_items.add("Ultra-Capacitors")
-    else:
-        excluded_items.add("Vanadium Plating")
-
-    if get_option_value(multiworld, player, "bunker_upgrade") == 1:
-        excluded_items.add("Shrike Turret")
-    else:
-        excluded_items.add("Fortified Bunker")
 
     for item in multiworld.precollected_items[player]:
         excluded_items.add(item.name)
@@ -176,8 +165,17 @@ def get_item_pool(multiworld: MultiWorld, player: int, mission_req_table: Dict[s
     # YAML items
     yaml_locked_items = get_option_value(multiworld, player, 'locked_items')
 
-    for name, data in item_table.items():
-        if name not in excluded_items:
+    # Adjust generic upgrade availability based on options
+    include_upgrades = get_option_value(multiworld, player, 'generic_upgrade_missions') == 0
+    upgrade_items = get_option_value(multiworld, player, 'generic_upgrade_items')
+
+    def item_allowed(name: str, data: ItemData) -> bool:
+        return name not in excluded_items and \
+            (data.type != "Upgrade" or (include_upgrades and \
+            name in upgrade_included_names[upgrade_items]))
+
+    for name, data in get_item_table(multiworld, player).items():
+        if item_allowed(name, data):
             for _ in range(data.quantity):
                 item = create_item_with_correct_settings(player, name)
                 if name in yaml_locked_items:
@@ -207,7 +205,7 @@ def fill_item_pool_with_dummy_items(self: SC2WoLWorld, multiworld: MultiWorld, p
 
 
 def create_item_with_correct_settings(player: int, name: str) -> Item:
-    data = item_table[name]
+    data = get_full_item_list()[name]
 
     item = Item(name, data.classification, data.code, player)
 

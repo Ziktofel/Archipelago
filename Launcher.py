@@ -11,7 +11,6 @@ Scroll down to components= to add components to the launcher as well as setup.py
 
 import argparse
 import itertools
-import logging
 import multiprocessing
 import shlex
 import subprocess
@@ -22,7 +21,6 @@ from shutil import which
 from typing import Sequence, Union, Optional
 
 import Utils
-import settings
 from worlds.LauncherComponents import Component, components, Type, SuffixIdentifier, icon_paths
 
 if __name__ == "__main__":
@@ -34,8 +32,7 @@ from Utils import is_frozen, user_path, local_path, init_logging, open_filename,
 
 
 def open_host_yaml():
-    file = settings.get_settings().filename
-    assert file, "host.yaml missing"
+    file = user_path('host.yaml')
     if is_linux:
         exe = which('sensible-editor') or which('gedit') or \
               which('xdg-open') or which('gnome-open') or which('kde-open')
@@ -58,7 +55,7 @@ def open_patch():
     except Exception as e:
         messagebox('Error', str(e), error=True)
     else:
-        file, component = identify(filename)
+        file, _, component = identify(filename)
         if file and component:
             launch([*get_exe(component), file], component.cli)
 
@@ -86,11 +83,6 @@ def open_folder(folder_path):
         webbrowser.open(folder_path)
 
 
-def update_settings():
-    from settings import get_settings
-    get_settings().save()
-
-
 components.extend([
     # Functions
     Component("Open host.yaml", func=open_host_yaml),
@@ -104,13 +96,11 @@ components.extend([
 
 def identify(path: Union[None, str]):
     if path is None:
-        return None, None
+        return None, None, None
     for component in components:
         if component.handles_file(path):
-            return path,  component
-        elif path == component.display_name or path == component.script_name:
-            return None, component
-    return None, None
+            return path, component.script_name, component
+    return (None, None, None) if '/' in path or '\\' in path else (None, path, None)
 
 
 def get_exe(component: Union[str, Component]) -> Optional[Sequence[str]]:
@@ -165,10 +155,10 @@ def run_gui():
         container: ContainerLayout
         grid: GridLayout
 
-        _tools = {c.display_name: c for c in components if c.type == Type.TOOL}
-        _clients = {c.display_name: c for c in components if c.type == Type.CLIENT}
-        _adjusters = {c.display_name: c for c in components if c.type == Type.ADJUSTER}
-        _miscs = {c.display_name: c for c in components if c.type == Type.MISC}
+        _tools = {c.display_name: c for c in components if c.type == Type.TOOL and isfile(get_exe(c)[-1])}
+        _clients = {c.display_name: c for c in components if c.type == Type.CLIENT and isfile(get_exe(c)[-1])}
+        _adjusters = {c.display_name: c for c in components if c.type == Type.ADJUSTER and isfile(get_exe(c)[-1])}
+        _funcs = {c.display_name: c for c in components if c.type == Type.FUNC}
 
         def __init__(self, ctx=None):
             self.title = self.base_title
@@ -209,7 +199,7 @@ def run_gui():
                     button_layout.add_widget(button)
 
             for (tool, client) in itertools.zip_longest(itertools.chain(
-                    self._tools.items(), self._miscs.items(), self._adjusters.items()), self._clients.items()):
+                    self._tools.items(), self._funcs.items(), self._adjusters.items()), self._clients.items()):
                 # column 1
                 if tool:
                     build_button(tool[1])
@@ -225,27 +215,12 @@ def run_gui():
 
         @staticmethod
         def component_action(button):
-            if button.component.func:
+            if button.component.type == Type.FUNC:
                 button.component.func()
             else:
                 launch(get_exe(button.component), button.component.cli)
 
-        def _stop(self, *largs):
-            # ran into what appears to be https://groups.google.com/g/kivy-users/c/saWDLoYCSZ4 with PyCharm.
-            # Closing the window explicitly cleans it up.
-            self.root_window.close()
-            super()._stop(*largs)
-
     Launcher().run()
-
-
-def run_component(component: Component, *args):
-    if component.func:
-        component.func(*args)
-    elif component.script_name:
-        subprocess.run([*get_exe(component.script_name), *args])
-    else:
-        logging.warning(f"Component {component} does not appear to be executable.")
 
 
 def main(args: Optional[Union[argparse.Namespace, dict]] = None):
@@ -255,40 +230,25 @@ def main(args: Optional[Union[argparse.Namespace, dict]] = None):
         args = {}
 
     if "Patch|Game|Component" in args:
-        file, component = identify(args["Patch|Game|Component"])
+        file, component, _ = identify(args["Patch|Game|Component"])
         if file:
             args['file'] = file
         if component:
             args['component'] = component
-        if not component:
-            logging.warning(f"Could not identify Component responsible for {args['Patch|Game|Component']}")
 
-    if args["update_settings"]:
-        update_settings()
     if 'file' in args:
-        run_component(args["component"], args["file"], *args["args"])
+        subprocess.run([*get_exe(args['component']), args['file'], *args['args']])
     elif 'component' in args:
-        run_component(args["component"], *args["args"])
-    elif not args["update_settings"]:
+        subprocess.run([*get_exe(args['component']), *args['args']])
+    else:
         run_gui()
 
 
 if __name__ == '__main__':
     init_logging('Launcher')
-    Utils.freeze_support()
-    multiprocessing.set_start_method("spawn")  # if launched process uses kivy, fork won't work
+    multiprocessing.freeze_support()
     parser = argparse.ArgumentParser(description='Archipelago Launcher')
-    run_group = parser.add_argument_group("Run")
-    run_group.add_argument("--update_settings", action="store_true",
-                           help="Update host.yaml and exit.")
-    run_group.add_argument("Patch|Game|Component", type=str, nargs="?",
-                           help="Pass either a patch file, a generated game or the name of a component to run.")
-    run_group.add_argument("args", nargs="*",
-                           help="Arguments to pass to component.")
+    parser.add_argument('Patch|Game|Component', type=str, nargs='?',
+                        help="Pass either a patch file, a generated game or the name of a component to run.")
+    parser.add_argument('args', nargs="*", help="Arguments to pass to component.")
     main(parser.parse_args())
-
-    from worlds.LauncherComponents import processes
-    for process in processes:
-        # we await all child processes to close before we tear down the process host
-        # this makes it feel like each one is its own program, as the Launcher is closed now
-        process.join()

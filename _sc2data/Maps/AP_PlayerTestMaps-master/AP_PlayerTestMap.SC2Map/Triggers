@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TriggerData>
+    <Root>
+        <Item Type="Trigger" Id="7F963617"/>
+        <Item Type="Trigger" Id="2F3A78DA"/>
+        <Item Type="Trigger" Id="D2919E86"/>
+    </Root>
+    <Element Type="Trigger" Id="7F963617">
+        <Event Type="FunctionCall" Id="50362724"/>
+        <Action Type="FunctionCall" Id="D48AD2A7"/>
+        <Action Type="FunctionCall" Id="7B5007EA"/>
+        <Action Type="FunctionCall" Id="6C28644E"/>
+        <Action Type="FunctionCall" Id="A6134CC5"/>
+    </Element>
+    <Element Type="FunctionCall" Id="50362724">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000120"/>
+    </Element>
+    <Element Type="FunctionCall" Id="D48AD2A7">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="9F8EF8FB"/>
+        <Parameter Type="Param" Id="B34F8D56"/>
+        <Parameter Type="Param" Id="B164CDE2"/>
+        <Parameter Type="Param" Id="500675FB"/>
+    </Element>
+    <Element Type="Param" Id="B34F8D56">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="C7188352"/>
+        <Value>1</Value>
+        <ValueType Type="int"/>
+    </Element>
+    <Element Type="Param" Id="B164CDE2">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="3BFEECBB"/>
+        <Value>1</Value>
+        <ValueType Type="int"/>
+    </Element>
+    <Element Type="Param" Id="500675FB">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="7E5035EE"/>
+        <Value>AP_SiegeTech</Value>
+        <ValueType Type="gamelink"/>
+        <ValueGameType Type="Upgrade"/>
+    </Element>
+    <Element Type="FunctionCall" Id="7B5007EA">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="9F8EF8FB"/>
+        <Parameter Type="Param" Id="3A7BCFC5"/>
+        <Parameter Type="Param" Id="1CB526F4"/>
+        <Parameter Type="Param" Id="67D57146"/>
+    </Element>
+    <Element Type="Param" Id="3A7BCFC5">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="C7188352"/>
+        <Value>1</Value>
+        <ValueType Type="int"/>
+    </Element>
+    <Element Type="Param" Id="1CB526F4">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="3BFEECBB"/>
+        <Value>1</Value>
+        <ValueType Type="int"/>
+    </Element>
+    <Element Type="Param" Id="67D57146">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="7E5035EE"/>
+        <Value>AP_WraithCloak</Value>
+        <ValueType Type="gamelink"/>
+        <ValueGameType Type="Upgrade"/>
+    </Element>
+    <Element Type="FunctionCall" Id="6C28644E">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="9F8EF8FB"/>
+        <Parameter Type="Param" Id="A3A7A490"/>
+        <Parameter Type="Param" Id="65C2CC7C"/>
+        <Parameter Type="Param" Id="DF5286EA"/>
+    </Element>
+    <Element Type="Param" Id="A3A7A490">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="C7188352"/>
+        <Value>1</Value>
+        <ValueType Type="int"/>
+    </Element>
+    <Element Type="Param" Id="65C2CC7C">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="3BFEECBB"/>
+        <Value>1</Value>
+        <ValueType Type="int"/>
+    </Element>
+    <Element Type="Param" Id="DF5286EA">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="7E5035EE"/>
+        <Value>AP_BansheeCloak</Value>
+        <ValueType Type="gamelink"/>
+        <ValueGameType Type="Upgrade"/>
+    </Element>
+    <Element Type="FunctionCall" Id="A6134CC5">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="9F8EF8FB"/>
+        <Parameter Type="Param" Id="18841432"/>
+        <Parameter Type="Param" Id="64E3A626"/>
+        <Parameter Type="Param" Id="7C50125C"/>
+    </Element>
+    <Element Type="Param" Id="18841432">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="C7188352"/>
+        <Value>1</Value>
+        <ValueType Type="int"/>
+    </Element>
+    <Element Type="Param" Id="64E3A626">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="3BFEECBB"/>
+        <Value>1</Value>
+        <ValueType Type="int"/>
+    </Element>
+    <Element Type="Param" Id="7C50125C">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="7E5035EE"/>
+        <Value>AP_YamatoCannon</Value>
+        <ValueType Type="gamelink"/>
+        <ValueGameType Type="Upgrade"/>
+    </Element>
+    <Element Type="Trigger" Id="2F3A78DA">
+        <Event Type="FunctionCall" Id="84892A8B"/>
+        <Action Type="FunctionCall" Id="F636CC35"/>
+    </Element>
+    <Element Type="FunctionCall" Id="84892A8B">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000120"/>
+    </Element>
+    <Element Type="FunctionCall" Id="F636CC35">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="943DF2F7"/>
+        <Parameter Type="Param" Id="D5D41140"/>
+        <Parameter Type="Param" Id="77FE70E9"/>
+        <Parameter Type="Param" Id="79944DC3"/>
+        <Parameter Type="Param" Id="EAB25817"/>
+    </Element>
+    <Element Type="Param" Id="D5D41140">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="75FC31CB"/>
+        <Value>1</Value>
+        <ValueType Type="int"/>
+    </Element>
+    <Element Type="Param" Id="77FE70E9">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="4AA9487D"/>
+        <Preset Type="PresetValue" Library="Ntve" Id="74DE5DFF"/>
+    </Element>
+    <Element Type="Param" Id="79944DC3">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="C93A9DCB"/>
+        <Preset Type="PresetValue" Library="Ntve" Id="D6715A64"/>
+    </Element>
+    <Element Type="Param" Id="EAB25817">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="EEF303AC"/>
+        <Value>1000</Value>
+        <ValueType Type="int"/>
+    </Element>
+    <Element Type="Trigger" Id="D2919E86">
+        <Event Type="FunctionCall" Id="09387F45"/>
+        <Action Type="FunctionCall" Id="97C7B0C8"/>
+    </Element>
+    <Element Type="FunctionCall" Id="09387F45">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000120"/>
+    </Element>
+    <Element Type="FunctionCall" Id="97C7B0C8">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000116"/>
+        <Parameter Type="Param" Id="F68B231B"/>
+        <Parameter Type="Param" Id="DA7754FC"/>
+        <Parameter Type="Param" Id="5C29F46F"/>
+    </Element>
+    <Element Type="Param" Id="F68B231B">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="00000183"/>
+        <Preset Type="PresetValue" Library="Ntve" Id="00000065"/>
+    </Element>
+    <Element Type="Param" Id="DA7754FC">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="00000184"/>
+        <Preset Type="PresetValue" Library="Ntve" Id="00000068"/>
+    </Element>
+    <Element Type="Param" Id="5C29F46F">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="00000182"/>
+        <ValueType Type="trigger"/>
+        <ValueElement Type="Trigger" Library="15EF4C78" Id="A5D195AA"/>
+    </Element>
+</TriggerData>

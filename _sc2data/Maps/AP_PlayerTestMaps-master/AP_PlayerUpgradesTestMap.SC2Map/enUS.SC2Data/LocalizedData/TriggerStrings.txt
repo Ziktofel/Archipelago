@@ -1,0 +1,5 @@
+﻿Trigger/Name/343B0EB3=__init
+Trigger/Name/599E7C75=SetMaxSupply
+Trigger/Name/7F963617=GiveUnitUpgrades
+Trigger/Name/B09074B6=StimMarine
+Variable/Name/85E7975A=TheMarine

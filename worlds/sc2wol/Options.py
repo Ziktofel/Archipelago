@@ -13,22 +13,6 @@ class GameDifficulty(Choice):
     option_brutal = 3
 
 
-class UpgradeBonus(Choice):
-    """Determines what lab upgrade to use, whether it is Ultra-Capacitors which boost attack speed with every weapon
-    upgrade or Vanadium Plating which boosts life with every armor upgrade."""
-    display_name = "Upgrade Bonus"
-    option_ultra_capacitors = 0
-    option_vanadium_plating = 1
-
-
-class BunkerUpgrade(Choice):
-    """Determines what bunker lab upgrade to use, whether it is Shrike Turret which outfits bunkers with an automated
-    turret or Fortified Bunker which boosts the life of bunkers."""
-    display_name = "Bunker Upgrade"
-    option_shrike_turret = 0
-    option_fortified_bunker = 1
-
-
 class AllInMap(Choice):
     """Determines what version of All-In (final map) that will be generated for the campaign."""
     display_name = "All In Map"
@@ -53,6 +37,30 @@ class MissionOrder(Choice):
     option_mini_grid = 4
     option_blitz = 5
     option_gauntlet = 6
+
+
+class PlayerColor(Choice):
+    """Determines in-game team color."""
+    display_name = "Player Color"
+    option_white = 0
+    option_red = 1
+    option_blue = 2
+    option_teal = 3
+    option_purple = 4
+    option_yellow = 5
+    option_orange = 6
+    option_green = 7
+    option_light_pink = 8
+    option_violet = 9
+    option_light_grey = 10
+    option_dark_green = 11
+    option_brown = 12
+    option_light_green = 13
+    option_dark_grey = 14
+    option_pink = 15
+    option_rainbow = 16
+    option_default = 17
+    default = option_default
 
 
 class ShuffleProtoss(DefaultOnToggle):
@@ -96,6 +104,52 @@ class UnitsAlwaysHaveUpgrades(DefaultOnToggle):
     display_name = "Units Always Have Upgrades"
 
 
+class GenericUpgradeMissions(Range):
+    """Determines the percentage of missions in the mission order that must be completed before
+    level 1 of all weapon and armor upgrades is unlocked.  Level 2 upgrades require double the amount of missions,
+    and level 3 requires triple the amount.  The required amounts are always rounded down.
+    If set to 0, upgrades are instead added to the item pool and must be found to be used."""
+    display_name = "Generic Upgrade Missions"
+    range_start = 0
+    range_end = 100
+    default = 0
+
+class GenericUpgradeResearch(Choice):
+    """Determines how weapon and armor upgrades affect missions once unlocked.
+
+    Vanilla:  Upgrades must be researched as normal.
+    Auto In No-Build:  In No-Build missions, upgrades are automatically researched.
+    In all other missions, upgrades must be researched as normal.
+    Auto In Build:  In No-Build missions, upgrades are unavailable as normal.
+    In all other missions, upgrades are automatically researched.
+    Always Auto:  Upgrades are automatically researched in all missions."""
+    display_name = "Generic Upgrade Research"
+    option_vanilla = 0
+    option_auto_in_no_build = 1
+    option_auto_in_build = 2
+    option_always_auto = 3
+
+class GenericUpgradeItems(Choice):
+    """Determines how weapon and armor upgrades are split into items.  All options produce 3 levels of each item.
+    Does nothing if upgrades are unlocked by completed mission counts.
+
+    Individual Items:  All weapon and armor upgrades are each an item,
+    resulting in 18 total upgrade items.
+    Bundle Weapon And Armor:  All types of weapon upgrades are one item,
+    and all types of armor upgrades are one item,
+    resulting in 6 total items.
+    Bundle Unit Class:  Weapon and armor upgrades are merged,
+    but Infantry, Vehicle, and Starship upgrades are bundled separately,
+    resulting in 9 total items.
+    Bundle All:  All weapon and armor upgrades are one item,
+    resulting in 3 total items."""
+    display_name = "Generic Upgrade Items"
+    option_individual_items = 0
+    option_bundle_weapon_and_armor = 1
+    option_bundle_unit_class = 2
+    option_bundle_all = 3
+
+
 class LockedItems(ItemSet):
     """Guarantees that these items will be unlockable"""
     display_name = "Locked Items"
@@ -113,22 +167,34 @@ class ExcludedMissions(OptionSet):
     display_name = "Excluded Missions"
     valid_keys = {mission_name for mission_name in vanilla_mission_req_table.keys() if mission_name != 'All-In'}
 
+class SC2ItemSet(Choice):
+    """Set of items available in world
+
+    Basic: Only units/upgrades/abilities present in SC2 WoL vanilla campaign
+    Extended: Added some SC1 and other units"""
+    display_name = "Item set"
+    option_basic = 0
+    option_extended = 1
+    default = option_basic
 
 # noinspection PyTypeChecker
 sc2wol_options: Dict[str, Option] = {
     "game_difficulty": GameDifficulty,
-    "upgrade_bonus": UpgradeBonus,
-    "bunker_upgrade": BunkerUpgrade,
     "all_in_map": AllInMap,
     "mission_order": MissionOrder,
+    "player_color": PlayerColor,
     "shuffle_protoss": ShuffleProtoss,
     "shuffle_no_build": ShuffleNoBuild,
     "early_unit": EarlyUnit,
     "required_tactics": RequiredTactics,
     "units_always_have_upgrades": UnitsAlwaysHaveUpgrades,
+    "generic_upgrade_missions": GenericUpgradeMissions,
+    "generic_upgrade_research": GenericUpgradeResearch,
+    "generic_upgrade_items": GenericUpgradeItems,
     "locked_items": LockedItems,
     "excluded_items": ExcludedItems,
-    "excluded_missions": ExcludedMissions
+    "excluded_missions": ExcludedMissions,
+    "item_set": SC2ItemSet
 }
 
 

@@ -28,7 +28,6 @@
 *.apsave
 *.BIN
 
-setups
 build
 bundle/components.wxs
 dist
@@ -37,7 +36,6 @@ README.html
 EnemizerCLI/
 /Players/
 /SNI/
-/host.yaml
 /options.yaml
 /config.yaml
 /logs/
@@ -169,10 +167,6 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-# Cython intermediates
-_speedups.cpp
-_speedups.html
-
 # minecraft server stuff
 jdk*/
 minecraft*/
@@ -181,9 +175,6 @@ minecraft_versions.json
 
 # pyenv
 .python-version
-
-#undertale stuff
-/Undertale/
 
 # OS General Files
 .DS_Store

@@ -1,16 +1,9 @@
-import settings
-import typing
-
 from typing import Dict
 from BaseClasses import Item, Location, MultiWorld, Tutorial, ItemClassification
 from .Items import ItemData, FF1Items, FF1_STARTER_ITEMS, FF1_PROGRESSION_LIST, FF1_BRIDGE
 from .Locations import EventId, FF1Locations, generate_rule, CHAOS_TERMINATED_EVENT
 from .Options import ff1_options
 from ..AutoWorld import World, WebWorld
-
-
-class FF1Settings(settings.Group):
-    display_msgs: bool = True
 
 
 class FF1Web(WebWorld):
@@ -35,8 +28,6 @@ class FF1World(World):
     """
 
     option_definitions = ff1_options
-    settings: typing.ClassVar[FF1Settings]
-    settings_key = "ffr_options"
     game = "Final Fantasy"
     topology_present = False
     data_version = 2

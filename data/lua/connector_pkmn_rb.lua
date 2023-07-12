@@ -167,7 +167,7 @@ function receive()
 end
 
 function main()
-    if not checkBizHawkVersion() then
+    if not checkBizhawkVersion() then
         return
     end
     server, error = socket.bind('localhost', 17242)

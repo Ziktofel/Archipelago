@@ -620,13 +620,16 @@ class VariaRandomizer:
                 self.objectivesManager.setScavengerHunt()
                 addedObjectives = 1
 
-            if not args.objective:
-                args.objective = ["nothing"]
-            
             if args.objective:
-                if (args.objectiveRandom):
-                    availableObjectives = [goal for goal in objectives if goal != "collect 100% items"] if "random" in args.objectiveList else args.objectiveList
-                    self.objectivesManager.setRandom(args.nbObjective, availableObjectives)
+                try:
+                    nbObjectives = int(args.objective[0])
+                except:
+                    nbObjectives = 0 if "random" in args.objective else None
+                if nbObjectives is not None:
+                    availableObjectives = args.objectiveList.split(',') if args.objectiveList is not None else objectives
+                    if nbObjectives == 0:
+                        nbObjectives = random.randint(1, min(Objectives.maxActiveGoals, len(availableObjectives)))
+                    self.objectivesManager.setRandom(nbObjectives, availableObjectives)
                 else:
                     maxActiveGoals = Objectives.maxActiveGoals - addedObjectives
                     if len(args.objective) > maxActiveGoals:

@@ -148,7 +148,7 @@ const buildOptionsTable = (settings, romOpts = false) => {
         randomButton.classList.add('randomize-button');
         randomButton.setAttribute('data-key', setting);
         randomButton.setAttribute('data-tooltip', 'Toggle randomization for this option!');
-        randomButton.addEventListener('click', (event) => toggleRandomize(event, select));
+        randomButton.addEventListener('click', (event) => toggleRandomize(event, [select]));
         if (currentSettings[gameName][setting] === 'random') {
           randomButton.classList.add('active');
           select.disabled = true;
@@ -185,7 +185,7 @@ const buildOptionsTable = (settings, romOpts = false) => {
         randomButton.classList.add('randomize-button');
         randomButton.setAttribute('data-key', setting);
         randomButton.setAttribute('data-tooltip', 'Toggle randomization for this option!');
-        randomButton.addEventListener('click', (event) => toggleRandomize(event, range));
+        randomButton.addEventListener('click', (event) => toggleRandomize(event, [range]));
         if (currentSettings[gameName][setting] === 'random') {
           randomButton.classList.add('active');
           range.disabled = true;
@@ -269,7 +269,7 @@ const buildOptionsTable = (settings, romOpts = false) => {
         randomButton.setAttribute('data-key', setting);
         randomButton.setAttribute('data-tooltip', 'Toggle randomization for this option!');
         randomButton.addEventListener('click', (event) => toggleRandomize(
-            event, specialRange, specialRangeSelect)
+            event, [specialRange, specialRangeSelect])
         );
         if (currentSettings[gameName][setting] === 'random') {
           randomButton.classList.add('active');
@@ -294,25 +294,23 @@ const buildOptionsTable = (settings, romOpts = false) => {
   return table;
 };
 
-const toggleRandomize = (event, inputElement, optionalSelectElement = null) => {
+const toggleRandomize = (event, inputElements) => {
   const active = event.target.classList.contains('active');
   const randomButton = event.target;
 
   if (active) {
     randomButton.classList.remove('active');
-    inputElement.disabled = undefined;
-    if (optionalSelectElement) {
-      optionalSelectElement.disabled = undefined;
+    for (const element of inputElements) {
+      element.disabled = undefined;
+      updateGameSetting(element);
     }
   } else {
     randomButton.classList.add('active');
-    inputElement.disabled = true;
-    if (optionalSelectElement) {
-      optionalSelectElement.disabled = true;
+    for (const element of inputElements) {
+      element.disabled = true;
+      updateGameSetting(randomButton);
     }
   }
-
-  updateGameSetting(randomButton);
 };
 
 const updateBaseSetting = (event) => {
@@ -366,7 +364,6 @@ const generateGame = (raceMode = false) => {
     weights: { player: settings },
     presetData: { player: settings },
     playerCount: 1,
-    spoiler: 3,
     race: raceMode ? '1' : '0',
   }).then((response) => {
     window.location.href = response.data.url;

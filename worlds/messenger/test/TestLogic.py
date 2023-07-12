@@ -11,33 +11,35 @@ class HardLogicTest(MessengerTestBase):
         """Test the locations that still require wingsuit or rope dart."""
         locations = [
             # tower of time
-            "Tower of Time Seal - Time Waster", "Tower of Time Seal - Lantern Climb",
+            "Tower of Time Seal - Time Waster Seal", "Tower of Time Seal - Lantern Climb",
             "Tower of Time Seal - Arcane Orbs",
             # ninja village
-            "Ninja Village - Candle", "Ninja Village - Astral Seed", "Ninja Village Seal - Tree House",
+            "Candle", "Astral Seed", "Ninja Village Seal - Tree House", "Astral Tea Leaves",
             # autumn hills
-            "Autumn Hills - Climbing Claws", "Autumn Hills - Key of Hope", "Autumn Hills - Leaf Golem",
+            "Climbing Claws", "Key of Hope", "Leaf Golem",
             "Autumn Hills Seal - Trip Saws", "Autumn Hills Seal - Double Swing Saws",
             "Autumn Hills Seal - Spike Ball Swing", "Autumn Hills Seal - Spike Ball Darts",
             # forlorn temple
-            "Forlorn Temple - Demon King",
+            "Demon King Crown",
             "Forlorn Temple Seal - Rocket Maze", "Forlorn Temple Seal - Rocket Sunset",
             # catacombs
-            "Catacombs - Necro", "Catacombs - Ruxxtin's Amulet", "Catacombs - Ruxxtin",
+            "Necro", "Ruxxtin's Amulet", "Ruxxtin",
             "Catacombs Seal - Triple Spike Crushers", "Catacombs Seal - Crusher Gauntlet", "Catacombs Seal - Dirty Pond",
             # bamboo creek
-            "Bamboo Creek - Claustro",
+            "Claustro",
             "Bamboo Creek Seal - Spike Crushers and Doors", "Bamboo Creek Seal - Spike Ball Pits",
             "Bamboo Creek Seal - Spike Crushers and Doors v2",
             # howling grotto
-            "Howling Grotto - Emerald Golem", "Howling Grotto Seal - Crushing Pits", "Howling Grotto Seal - Crushing Pits",
-            # searing crags
-            "Searing Crags - Astral Tea Leaves",
+            "Emerald Golem", "Howling Grotto Seal - Crushing Pits", "Howling Grotto Seal - Crushing Pits",
+            # glacial peak
+            "Glacial Peak Seal - Ice Climbers",
             # cloud ruins
-            "Cloud Ruins - Acro", "Cloud Ruins Seal - Ghost Pit",
+            "Acro", "Cloud Ruins Seal - Ghost Pit",
             "Cloud Ruins Seal - Toothbrush Alley", "Cloud Ruins Seal - Saw Pit", "Cloud Ruins Seal - Money Farm Room",
             # underworld
             "Underworld Seal - Rising Fanta", "Underworld Seal - Sharp and Windy Climb",
+            # riviere turquoise
+            "Fairy Bottle", "Riviere Turquoise Seal - Flower Power",
             # elemental skylands
             "Elemental Skylands Seal - Air",
             # phantom
@@ -50,15 +52,15 @@ class HardLogicTest(MessengerTestBase):
         """Windmill Shuriken isn't progression on normal difficulty, so test it's marked correctly and required."""
         self.assertEqual(ItemClassification.progression, self.get_item_by_name("Windmill Shuriken").classification)
         windmill_locs = [
-            "Searing Crags - Key of Strength",
-            "Elemental Skylands - Key of Symbiosis",
+            "Key of Strength",
+            "Key of Symbiosis",
             "Underworld Seal - Fireball Wave",
         ]
         for loc in windmill_locs:
             with self.subTest("can't reach location with nothing", location=loc):
                 self.assertFalse(self.can_reach_location(loc))
 
-        items = self.get_items_by_name(["Windmill Shuriken", "Lightfoot Tabi", "Magic Firefly"])
+        items = self.get_items_by_name(["Windmill Shuriken", "Ninja Tabi", "Fairy Bottle"])
         self.collect(items)
         for loc in windmill_locs:
             with self.subTest("can reach with Windmill", location=loc):
@@ -75,6 +77,13 @@ class HardLogicTest(MessengerTestBase):
         self.assertTrue(self.can_reach_location(special_loc))
 
 
+class ChallengingLogicTest(MessengerTestBase):
+    options = {
+        "shuffle_seals": "false",
+        "logic_level": "challenging",
+    }
+
+
 class NoLogicTest(MessengerTestBase):
     options = {
         "logic_level": "oob",
@@ -83,14 +92,17 @@ class NoLogicTest(MessengerTestBase):
     def testAccess(self) -> None:
         """Test the locations with rules still require things."""
         all_locations = [
-            "Bamboo Creek - Claustro", "Searing Crags - Key of Strength", "Elemental Skylands - Key of Symbiosis",
-            "Sunken Shrine - Key of Love", "Searing Crags - Pyro", "Underworld - Key of Chaos",
-            "Corrupted Future - Key of Courage", "Autumn Hills Seal - Spike Ball Darts",
-            "Ninja Village Seal - Tree House", "Underworld Seal - Fireball Wave", "Tower of Time Seal - Time Waster",
-            "Rescue Phantom", "Elemental Skylands Seal - Air", "Elemental Skylands Seal - Water",
-            "Elemental Skylands Seal - Fire",
+            "Claustro", "Key of Strength", "Key of Symbiosis", "Key of Love", "Pyro", "Key of Chaos", "Key of Courage",
+            "Autumn Hills Seal - Spike Ball Darts", "Ninja Village Seal - Tree House", "Underworld Seal - Fireball Wave",
+            "Tower of Time Seal - Time Waster Seal", "Rescue Phantom", "Elemental Skylands Seal - Air",
+            "Elemental Skylands Seal - Water", "Elemental Skylands Seal - Fire",
         ]
         for loc in all_locations:
             with self.subTest("Default unreachables", location=loc):
                 self.assertFalse(self.can_reach_location(loc))
+
+    def testNoLogic(self) -> None:
+        """Test some funny locations to make sure they aren't reachable, but we can still win"""
+        self.assertEqual(self.can_reach_location("Pyro"), False)
+        self.assertEqual(self.can_reach_location("Rescue Phantom"), False)
         self.assertBeatable(True)

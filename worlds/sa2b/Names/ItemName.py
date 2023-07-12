@@ -51,10 +51,6 @@ tiny_trap       = "Tiny Trap"
 gravity_trap    = "Gravity Trap"
 exposition_trap = "Exposition Trap"
 darkness_trap   = "Darkness Trap"
-ice_trap        = "Ice Trap"
-slow_trap       = "Slow Trap"
-cutscene_trap   = "Cutscene Trap"
-
 pong_trap       = "Pong Trap"
 
 white_emerald  = "White Chaos Emerald"

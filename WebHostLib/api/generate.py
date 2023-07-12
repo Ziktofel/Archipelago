@@ -2,8 +2,7 @@ import json
 import pickle
 from uuid import UUID
 
-from flask import request, session, url_for
-from markupsafe import Markup
+from flask import request, session, url_for, Markup
 from pony.orm import commit
 
 from WebHostLib import app
