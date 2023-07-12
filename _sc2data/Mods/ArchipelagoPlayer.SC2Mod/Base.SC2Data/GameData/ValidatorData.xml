@@ -10,9 +10,9 @@
         <Find value="1"/>
         <Value value="AP_HaveHotSHaveRaptor"/>
     </CValidatorPlayerRequirement>
-    <CValidatorPlayerRequirement id="AP_PredatorKinAlgsResearched">
+    <CValidatorPlayerRequirement id="AP_PredatorMobilityUpgradeResearched">
         <Find value="1"/>
-        <Value value="AP_PredatorKinAlgsResearched"/>
+        <Value value="AP_PredatorMobilityUpgradeResearched"/>
     </CValidatorPlayerRequirement>
     <CValidatorPlayerRequirement id="AP_HaveHotSImpaler">
         <Find value="1"/>

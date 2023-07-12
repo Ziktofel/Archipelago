@@ -879,7 +879,7 @@ Button/Name/AP_PhoenixAiurGravitonBeamPassive=Double Graviton Beam
 Button/Name/AP_PlanetaryFortressLoad=Load
 Button/Name/AP_PoisonNova=Toxic Blast
 Button/Name/AP_Predator=Build Predator
-Button/Name/AP_PredatorKinematicAlgorithms=Kinematic Algorithms
+Button/Name/AP_PredatorMobilityUpgrade=Kinematic Algorithms
 Button/Name/AP_Probe=Warp In Probe
 Button/Name/AP_ProjectileAccelerators=Projectile Accelerators
 Button/Name/AP_ProtossGroundArmorLevel1=Upgrade Ground Armor Level 1
@@ -1495,7 +1495,7 @@ Button/Tooltip/AP_PlanetaryFortressLoad=Loads nearby SCVs into the Planetary For
 Button/Tooltip/AP_PointDefenseDrone=Uses a laser to shoot down enemy missiles.  <n/>Cannot target special attacks. <n/>Times out after <d ref="Behavior,AP_PointDefenseDroneTimedLife,Duration"/> seconds.<n/><n/><c val="f078ff">Each shot consumes 10 energy.</c>
 Button/Tooltip/AP_PoisonNova=Instantly deals 20 damage to enemy ground units nearby.
 Button/Tooltip/AP_Predator=Anti-infantry specialist that deals area damage with each attack.<n/><n/><c val="#ColorAttackInfo">Can attack ground units.</c>
-Button/Tooltip/AP_PredatorKinematicAlgorithms=While moving, <c val="ffff8a">Predators</c> gain 2 armor and can pass through non-Predator ground units.
+Button/Tooltip/AP_PredatorMobilityUpgrade=While moving, <c val="ffff8a">Predators</c> gain 2 armor and can pass through non-Predator ground units.
 Button/Tooltip/AP_Probe=Basic worker unit. Can gather resources and warp in Protoss structures.<n/><n/><c val="ffff8a">Can attack ground units.</c>
 Button/Tooltip/AP_ProjectileAccelerators=Increases the range of all units in the Bunker by 1.
 Button/Tooltip/AP_ProtossGroundArmorLevel1=Upgrades the armor of Protoss ground units.
@@ -2570,8 +2570,8 @@ Effect/Name/AP_PoisonNova=Poison Nova
 Effect/Name/AP_PoisonNovaDirectDamage=Poison Nova Direct Damage
 Effect/Name/AP_PoisonNovaSet=Poison Nova Set
 Effect/Name/AP_Predator=Titanium Claws
-Effect/Name/AP_PredatorKinAlgsCollideEffect=Kinematic Algorithms Collision
-Effect/Name/AP_PredatorKinAlgsSearchEffect=Kinematic Algorithms Collision
+Effect/Name/AP_PredatorMobilityUpgradeCollideEffect=Kinematic Algorithms Collision
+Effect/Name/AP_PredatorMobilityUpgradeSearchEffect=Kinematic Algorithms Collision
 Effect/Name/AP_ProjectileAccelerators=Projectile Accelerators
 Effect/Name/AP_ProjectileAcceleratorsRemove=Projectile Accelerators Remove
 Effect/Name/AP_PsiDisruptionApplyBehavior=Psi Disruption (Apply Behavior)
@@ -3643,7 +3643,7 @@ Upgrade/Name/AP_PermanentCloakGhost=Permanent Cloaking
 Upgrade/Name/AP_PermanentCloakSpectre=Nyx-Class Cloaking Module
 Upgrade/Name/AP_PersonalCloaking=Personal Cloaking
 Upgrade/Name/AP_Predator=Predator
-Upgrade/Name/AP_PredatorKinAlgs=Kinematic Algorithms
+Upgrade/Name/AP_PredatorMobilityUpgrade=Kinematic Algorithms
 Upgrade/Name/AP_ProjectileAccelerators=Projectile Accelerators
 Upgrade/Name/AP_PsiDisruptor=Psi Disrupter
 Upgrade/Name/AP_PunisherGrenades=Concussive Shells

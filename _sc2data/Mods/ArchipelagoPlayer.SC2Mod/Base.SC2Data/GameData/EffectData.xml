@@ -11628,17 +11628,17 @@
     <CEffectApplyBehavior id="AP_TempTimeout">
         <Behavior value="AP_TempTimeout"/>
     </CEffectApplyBehavior>
-    <CEffectApplyForce id="AP_PredatorKinAlgsCollideEffect">
+    <CEffectApplyForce id="AP_PredatorMobilityUpgradeCollideEffect">
         <EditorCategories value="Race:Terran"/>
         <Amount value="0.2"/>
     </CEffectApplyForce>
-    <CEffectEnumArea id="AP_PredatorKinAlgsSearchEffect">
-        <ValidatorArray value="AP_PredatorKinAlgsResearched"/>
+    <CEffectEnumArea id="AP_PredatorMobilityUpgradeSearchEffect">
+        <ValidatorArray value="AP_PredatorMobilityUpgradeResearched"/>
         <ValidatorArray value="TargetIsPredator"/>
         <EditorCategories value="Race:Terran"/>
         <ImpactLocation Value="SourceUnit"/>
         <SearchFilters value="Ground;Self,Stasis,Dead,Hidden"/>
-        <AreaArray Radius="0.625" Effect="AP_PredatorKinAlgsCollideEffect"/>
+        <AreaArray Radius="0.625" Effect="AP_PredatorMobilityUpgradeCollideEffect"/>
         <SearchFlags index="SameCliff" value="1"/>
     </CEffectEnumArea>
 </Catalog>

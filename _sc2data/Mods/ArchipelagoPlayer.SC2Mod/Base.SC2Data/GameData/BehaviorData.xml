@@ -4354,20 +4354,22 @@
         <Duration value="0.1"/>
         <ExpireEffect value="AP_MercFirebatOptimizedLogisticsMorph"/>
     </CBehaviorBuff>
-    <CBehaviorBuff id="AP_PredatorKinematicAlgorithms">
+    <CBehaviorBuff id="AP_PredatorMobilityUpgrade">
         <InfoFlags index="Hidden" value="1"/>
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
         <DisableValidatorArray value="MovingFast"/>
+        <DisableValidatorArray value="AP_PredatorMobilityUpgradeResearched"/>
         <Modification>
             <StateFlags index="SuppressCollision" value="1"/>
             <LifeArmorBonus value="2"/>
         </Modification>
     </CBehaviorBuff>
-    <CBehaviorBuff id="AP_PredatorKinematicAlgsCollision">
+    <CBehaviorBuff id="AP_PredatorMobilityUpgradeCollision">
         <InfoFlags index="Hidden" value="1"/>
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
         <Period value="0.2"/>
-        <PeriodicEffect value="AP_PredatorKinAlgsSearchEffect"/>
+        <PeriodicEffect value="AP_PredatorMobilityUpgradeSearchEffect"/>
+        <DisableValidatorArray value="AP_PredatorMobilityUpgradeResearched"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_SOAHeroicShieldImmunity">
         <Alignment value="Positive"/>
