@@ -5,8 +5,4 @@
         <Sound value="Alert_ZergEvolutionComplete"/>
         <Peripheral value="MorphComplete"/>
     </CAlert>
-    <CAlert id="AP_TransformationComplete">
-        <Voice value="Ready"/>
-        <Peripheral value="MorphComplete"/>
-    </CAlert>
 </Catalog>
