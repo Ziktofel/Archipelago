@@ -2841,7 +2841,6 @@
         <EditorCategories value="Race:Terran"/>
         <Universal value="1"/>
     </CButton>
-    <CButton id="AP_PredatorMobilityUpgrade">
     <CButton id="AP_VoidZealotWhirlwind">
         <Icon value="Assets\Textures\BTN-Ability-Protoss-Whirlwind.dds"/>
     </CButton>
@@ -3025,7 +3024,7 @@
         <AlertIcon value="Assets\Textures\btn-ability-spearofadun-orbitalassimilator.dds"/>
         <EditorCategories value="Race:Protoss"/>
     </CButton>
-    <CButton id="AP_PredatorKinematicAlgorithms">
+    <CButton id="AP_PredatorMobilityUpgrade">
         <Icon value="Assets\Textures\btn-upgrade-stetmann-lurkertunnelingburstrange.dds"/>
         <AlertIcon value="Assets\Textures\btn-upgrade-stetmann-lurkertunnelingburstrange.dds"/>
         <EditorCategories value="Race:Terran"/>

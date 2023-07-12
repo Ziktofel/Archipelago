@@ -4916,5 +4916,4 @@
     <CUpgrade id="AP_SOAAutoAssimilator">
         <Flags index="UpgradeCheat" value="0"/>
     </CUpgrade>
-    <CUpgrade id="AP_PredatorMobilityUpgrade"/>
 </Catalog>
