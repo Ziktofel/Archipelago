@@ -3623,7 +3623,7 @@
         <!-- Override -->
         <Type value="SelectAlias"/>
     </CValidatorUnitType>
-    <CValidatorUnitCompareSpeed id="MovingFast">
+    <CValidatorUnitCompareSpeed id="AP_MovingFast">
         <Compare value="GE"/>
         <Value value="2.5"/>
     </CValidatorUnitCompareSpeed>
