@@ -11188,7 +11188,7 @@
     </CEffectApplyForce>
     <CEffectEnumArea id="AP_PredatorMobilityUpgradeSearchEffect">
         <ValidatorArray value="AP_PredatorMobilityUpgradeResearched"/>
-        <ValidatorArray value="TargetIsPredator"/>
+        <ValidatorArray value="AP_TargetIsPredator"/>
         <EditorCategories value="Race:Terran"/>
         <ImpactLocation Value="SourceUnit"/>
         <SearchFilters value="Ground;Self,Stasis,Dead,Hidden"/>
