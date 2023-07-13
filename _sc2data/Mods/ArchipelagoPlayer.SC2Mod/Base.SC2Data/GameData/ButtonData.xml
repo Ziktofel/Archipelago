@@ -3029,4 +3029,9 @@
         <AlertIcon value="Assets\Textures\btn-upgrade-stetmann-lurkertunnelingburstrange.dds"/>
         <EditorCategories value="Race:Terran"/>
     </CButton>
+    <CButton id="AP_PredatorMobilityUpgrade">
+        <Icon value="Assets\Textures\btn-upgrade-stetmann-lurkertunnelingburstrange.dds"/>
+        <AlertIcon value="Assets\Textures\btn-upgrade-stetmann-lurkertunnelingburstrange.dds"/>
+        <EditorCategories value="Race:Terran"/>
+    </CButton>
 </Catalog>
