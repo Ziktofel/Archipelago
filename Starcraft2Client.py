@@ -34,6 +34,7 @@ from worlds.sc2wol import SC2WoLWorld
 from worlds.sc2wol.Items import lookup_id_to_name, get_full_item_list, ItemData, type_flaggroups, upgrade_numbers
 from worlds.sc2wol.Locations import SC2WOL_LOC_ID_OFFSET
 from worlds.sc2wol.MissionTables import lookup_id_to_mission
+from worlds.sc2wol import Options
 from worlds.sc2wol.Regions import MissionInfo
 
 import colorama
@@ -933,7 +934,7 @@ def calc_available_missions(ctx: SC2Context, unlocks=None):
     return available_missions
 
 
-def mission_reqs_completed(ctx: SC2Context, mission_name: str, missions_complete: int):
+def mission_reqs_completed(ctx: SC2Context, mission_name: str, missions_complete: int) -> bool:
     """Returns a bool signifying if the mission has all requirements complete and can be done
 
     Arguments:
@@ -941,7 +942,7 @@ def mission_reqs_completed(ctx: SC2Context, mission_name: str, missions_complete
     locations_to_check -- the mission string name to check
     missions_complete -- an int of how many missions have been completed
     mission_path -- a list of missions that have already been checked
-"""
+    """
     if len(ctx.mission_req_table[mission_name].required_world) >= 1:
         # A check for when the requirements are being or'd
         or_success = False
@@ -959,7 +960,12 @@ def mission_reqs_completed(ctx: SC2Context, mission_name: str, missions_complete
                     req_success = False
 
             # Grid-specific logic (to avoid long path checks and infinite recursion)
-            if ctx.mission_order in (3, 4):
+            if ctx.mission_order in (
+                Options.MissionOrder.option_grid,
+                Options.MissionOrder.option_mini_grid,
+                Options.MissionOrder.option_grid_4x6,
+                Options.MissionOrder.option_grid_5x6,
+            ):
                 if req_success:
                     return True
                 else:

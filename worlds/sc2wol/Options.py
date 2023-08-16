@@ -60,6 +60,8 @@ class MissionOrder(Choice):
     Gauntlet (7): Linear series of 7 random missions to complete the campaign.
     Mini Gauntlet (4): Linear series of 4 random missions to complete the campaign.
     Tiny Grid (4): A 2x2 version of Grid.  Complete the bottom-right mission to win.
+    Grid 5x6 (29): A 5x6 -1 version of Grid.  Two starting missions, and a grid containing all WoL missions. Complete the top-right mission to win.
+    Grid 4x6 (23): A 4x6 -1 version of Grid.  Perfect for excluding no-build missions. Complete the top-right mission to win.
     """
     display_name = "Mission Order"
     option_vanilla = 0
@@ -71,6 +73,8 @@ class MissionOrder(Choice):
     option_gauntlet = 6
     option_mini_gauntlet = 7
     option_tiny_grid = 8
+    option_grid_5x6 = 9
+    option_grid_4x6 = 10
 
 
 class PlayerColor(Choice):

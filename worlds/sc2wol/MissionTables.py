@@ -158,6 +158,64 @@ blitz_order = [
     FillMission(MissionPools.FINAL, [0, 1], "Final", number=5, or_requirements=True)
 ]
 
+grid_5x6_order = [
+    FillMission(MissionPools.HARD,    [1, 4],           "_1", or_requirements=True),
+    FillMission(MissionPools.MEDIUM,  [0, 5, 2],        "_1", or_requirements=True),
+    FillMission(MissionPools.EASY,    [1, 6, 3],        "_1", or_requirements=True),
+    FillMission(MissionPools.STARTER, [-1],             "_1", or_requirements=True),
+    FillMission(MissionPools.HARD,    [0, 5, 9],        "_2", or_requirements=True),
+    FillMission(MissionPools.HARD,    [1, 4, 10, 6],    "_2", or_requirements=True),
+    FillMission(MissionPools.MEDIUM,  [2, 5, 11, 7],    "_2", or_requirements=True),
+    FillMission(MissionPools.EASY,    [3, 6, 12, 8],    "_2", or_requirements=True),
+    FillMission(MissionPools.EASY,    [-1],             "_2", or_requirements=True),
+    FillMission(MissionPools.HARD,    [4, 10, 14],      "_3", or_requirements=True),
+    FillMission(MissionPools.HARD,    [5, 9, 15, 11],   "_3", or_requirements=True),
+    FillMission(MissionPools.HARD,    [6, 10, 16, 12],  "_3", or_requirements=True),
+    FillMission(MissionPools.MEDIUM,  [7, 11, 17, 13],  "_3", or_requirements=True),
+    FillMission(MissionPools.EASY,    [8, 12, 18],      "_3", or_requirements=True),
+    FillMission(MissionPools.HARD,    [9, 15, 19],      "_4", or_requirements=True),
+    FillMission(MissionPools.HARD,    [10, 14, 20, 16], "_4", or_requirements=True),
+    FillMission(MissionPools.HARD,    [11, 15, 21, 17], "_4", or_requirements=True),
+    FillMission(MissionPools.HARD,    [12, 16, 22, 18], "_4", or_requirements=True),
+    FillMission(MissionPools.MEDIUM,  [13, 17, 23],     "_4", or_requirements=True),
+    FillMission(MissionPools.HARD,    [14, 20, 24],     "_5", or_requirements=True),
+    FillMission(MissionPools.HARD,    [15, 19, 25, 21], "_5", or_requirements=True),
+    FillMission(MissionPools.HARD,    [16, 20, 26, 22], "_5", or_requirements=True),
+    FillMission(MissionPools.HARD,    [17, 21, 27, 23], "_5", or_requirements=True),
+    FillMission(MissionPools.HARD,    [18, 22, 28],     "_5", or_requirements=True),
+    FillMission(MissionPools.FINAL,   [19, 25],         "_6", or_requirements=True),
+    FillMission(MissionPools.HARD,    [20, 24, 26],     "_6", or_requirements=True),
+    FillMission(MissionPools.HARD,    [21, 25, 27],     "_6", or_requirements=True),
+    FillMission(MissionPools.HARD,    [22, 26, 28],     "_6", or_requirements=True),
+    FillMission(MissionPools.HARD,    [23, 27],         "_6", or_requirements=True),
+]
+
+grid_4x6_order = [
+    FillMission(MissionPools.HARD,    [1, 5],           "_1", or_requirements=True),
+    FillMission(MissionPools.HARD,    [0, 6, 2],        "_1", or_requirements=True),
+    FillMission(MissionPools.MEDIUM,  [1, 7, 3],        "_1", or_requirements=True),
+    FillMission(MissionPools.EASY,    [2, 8, 4],        "_1", or_requirements=True),
+    FillMission(MissionPools.STARTER, [-1],             "_1", or_requirements=True),
+    FillMission(MissionPools.HARD,    [0, 6, 11],       "_2", or_requirements=True),
+    FillMission(MissionPools.HARD,    [1, 5, 12, 7],    "_2", or_requirements=True),
+    FillMission(MissionPools.HARD,    [2, 6, 13, 8],    "_2", or_requirements=True),
+    FillMission(MissionPools.MEDIUM,  [3, 7, 14, 9],    "_2", or_requirements=True),
+    FillMission(MissionPools.EASY,    [4, 8, 15, 10],   "_2", or_requirements=True),
+    FillMission(MissionPools.STARTER, [-1],             "_2", or_requirements=True),
+    FillMission(MissionPools.HARD,    [5, 17, 12],      "_3", or_requirements=True),
+    FillMission(MissionPools.HARD,    [6, 11, 18, 13],  "_3", or_requirements=True),
+    FillMission(MissionPools.HARD,    [7, 12, 19, 14],  "_3", or_requirements=True),
+    FillMission(MissionPools.HARD,    [8, 13, 20, 15],  "_3", or_requirements=True),
+    FillMission(MissionPools.MEDIUM,  [9, 14, 21, 16],  "_3", or_requirements=True),
+    FillMission(MissionPools.EASY,    [10, 15, 22],     "_3", or_requirements=True),
+    FillMission(MissionPools.FINAL,   [11, 18],         "_4", or_requirements=True),
+    FillMission(MissionPools.HARD,    [12, 17, 19],     "_4", or_requirements=True),
+    FillMission(MissionPools.HARD,    [13, 18, 20],     "_4", or_requirements=True),
+    FillMission(MissionPools.HARD,    [14, 19, 21],     "_4", or_requirements=True),
+    FillMission(MissionPools.HARD,    [15, 20, 22],     "_4", or_requirements=True),
+    FillMission(MissionPools.MEDIUM,  [16, 21],         "_4", or_requirements=True),
+]
+
 mission_orders = [
     vanilla_shuffle_order,
     vanilla_shuffle_order,
@@ -167,7 +225,9 @@ mission_orders = [
     blitz_order,
     gauntlet_order,
     mini_gauntlet_order,
-    tiny_grid_order
+    tiny_grid_order,
+    grid_5x6_order,
+    grid_4x6_order,
 ]
 
 
