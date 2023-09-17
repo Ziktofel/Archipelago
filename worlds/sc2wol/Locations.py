@@ -4,6 +4,7 @@ from BaseClasses import MultiWorld
 from .Options import get_option_value
 
 from BaseClasses import Location
+from .PoolFilter import ValidInventory
 
 SC2WOL_LOC_ID_OFFSET = 1000
 
@@ -24,7 +25,7 @@ class LocationData(NamedTuple):
     name: str
     code: Optional[int]
     type: LocationType
-    rule: Callable = lambda state: True
+    rule: Callable[[ValidInventory], bool] = lambda state: True
 
 
 def get_locations(multiworld: Optional[MultiWorld], player: Optional[int]) -> Tuple[LocationData, ...]:

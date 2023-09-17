@@ -1,14 +1,21 @@
 from typing import NamedTuple, Dict, List
-from enum import IntEnum
+from enum import IntEnum, Flag, auto
 
-no_build_regions_list = ["Liberation Day", "Breakout", "Ghost of a Chance", "Piercing the Shroud", "Whispers of Doom",
-                         "Belly of the Beast"]
-easy_regions_list = ["The Outlaws", "Zero Hour", "Evacuation", "Outbreak", "Smash and Grab", "Devil's Playground"]
-medium_regions_list = ["Safe Haven", "Haven's Fall", "The Dig", "The Moebius Factor", "Supernova",
-                       "Welcome to the Jungle", "The Great Train Robbery", "Cutthroat", "Media Blitz",
-                       "A Sinister Turn", "Echoes of the Future"]
-hard_regions_list = ["Maw of the Void", "Engine of Destruction", "In Utter Darkness", "Gates of Hell",
-                     "Shatter the Sky"]
+
+class MissionTags(Flag):
+    MarSara = auto()
+    Colonist = auto()
+    Artifact = auto()
+    Covert = auto()
+    Rebellion = auto()
+    Prophecy = auto()
+    Char = auto()
+    NoBuild = auto()
+    Hero = auto()
+    TimedDefense = auto()
+    VsTerran = auto()
+    VsZerg = auto()
+    VsProtoss = auto()
 
 
 class MissionPools(IntEnum):
@@ -167,7 +174,7 @@ mission_orders = [
     blitz_order,
     gauntlet_order,
     mini_gauntlet_order,
-    tiny_grid_order
+    tiny_grid_order,
 ]
 
 
@@ -228,3 +235,37 @@ alt_final_mission_locations = {
     "Gates of Hell": "Gates of Hell: Victory",
     "Shatter the Sky": "Shatter the Sky: Victory"
 }
+
+
+mission_tags = {
+    "Liberation Day":           MissionTags.MarSara | MissionTags.VsTerran | MissionTags.NoBuild | MissionTags.Hero,
+    "The Outlaws":              MissionTags.MarSara | MissionTags.VsTerran,
+    "Zero Hour":                MissionTags.MarSara | MissionTags.VsZerg | MissionTags.TimedDefense,
+    "Evacuation":               MissionTags.Colonist | MissionTags.VsZerg,
+    "Outbreak":                 MissionTags.Colonist | MissionTags.VsZerg,
+    "Safe Haven":               MissionTags.Colonist | MissionTags.VsProtoss,
+    "Haven's Fall":             MissionTags.Colonist | MissionTags.VsZerg,
+    "Smash and Grab":           MissionTags.Artifact | MissionTags.VsZerg | MissionTags.VsProtoss,
+    "The Dig":                  MissionTags.Artifact | MissionTags.VsProtoss | MissionTags.TimedDefense,
+    "The Moebius Factor":       MissionTags.Artifact | MissionTags.VsZerg,
+    "Supernova":                MissionTags.Artifact | MissionTags.VsProtoss,
+    "Maw of the Void":          MissionTags.Artifact | MissionTags.VsProtoss,
+    "Devil's Playground":       MissionTags.Covert | MissionTags.VsZerg,
+    "Welcome to the Jungle":    MissionTags.Covert | MissionTags.VsProtoss,
+    "Breakout":                 MissionTags.Covert | MissionTags.VsTerran | MissionTags.NoBuild | MissionTags.Hero,
+    "Ghost of a Chance":        MissionTags.Covert | MissionTags.VsTerran | MissionTags.NoBuild | MissionTags.Hero,
+    "The Great Train Robbery":  MissionTags.Rebellion | MissionTags.VsTerran,
+    "Cutthroat":                MissionTags.Rebellion | MissionTags.VsTerran,
+    "Engine of Destruction":    MissionTags.Rebellion | MissionTags.VsTerran,
+    "Media Blitz":              MissionTags.Rebellion | MissionTags.VsTerran | MissionTags.Hero,
+    "Piercing the Shroud":      MissionTags.Rebellion | MissionTags.VsTerran | MissionTags.VsZerg | MissionTags.VsProtoss | MissionTags.NoBuild | MissionTags.Hero,
+    "Whispers of Doom":         MissionTags.Prophecy | MissionTags.VsZerg | MissionTags.NoBuild,
+    "A Sinister Turn":          MissionTags.Prophecy | MissionTags.VsProtoss,
+    "Echoes of the Future":     MissionTags.Prophecy | MissionTags.VsZerg | MissionTags.Hero,
+    "In Utter Darkness":        MissionTags.Prophecy | MissionTags.VsZerg | MissionTags.Hero,
+    "Gates of Hell":            MissionTags.Char | MissionTags.VsZerg,
+    "Belly of the Beast":       MissionTags.Char | MissionTags.VsZerg | MissionTags.NoBuild | MissionTags.Hero,
+    "Shatter the Sky":          MissionTags.Char | MissionTags.VsZerg,
+    "All-In":                   MissionTags.Char | MissionTags.VsZerg | MissionTags.TimedDefense,
+}
+

@@ -1,9 +1,9 @@
 from typing import Callable, Dict, List, Set
 from BaseClasses import MultiWorld, ItemClassification, Item, Location
-from .Items import get_full_item_list, spider_mine_sources, second_pass_placeable_items, filler_items
-from .MissionTables import no_build_regions_list, easy_regions_list, medium_regions_list, hard_regions_list,\
-    mission_orders, MissionInfo, alt_final_mission_locations, MissionPools
-from .Options import get_option_value, MissionOrder, FinalMap, MissionProgressLocations, LocationInclusion
+from .Items import get_full_item_list, spider_mine_sources, second_pass_placeable_items
+from .MissionTables import (
+    mission_orders, MissionInfo, alt_final_mission_locations, MissionPools, mission_tags, MissionTags)
+from .Options import get_option_value, MissionOrder, FinalMap
 from .LogicMixin import SC2WoLLogic
 
 # Items with associated upgrades
@@ -18,7 +18,14 @@ BARRACKS_UNITS = {"Marine", "Medic", "Firebat", "Marauder", "Reaper", "Ghost", "
 FACTORY_UNITS = {"Hellion", "Vulture", "Goliath", "Diamondback", "Siege Tank", "Thor", "Predator", "Widow Mine"}
 STARPORT_UNITS = {"Medivac", "Wraith", "Viking", "Banshee", "Battlecruiser", "Hercules", "Science Vessel", "Raven", "Liberator", "Valkyrie"}
 
-PROTOSS_REGIONS = {"A Sinister Turn", "Echoes of the Future", "In Utter Darkness"}
+PROTOSS_REGIONS = set(region_name for region_name in mission_tags if MissionTags.Prophecy in mission_tags[region_name])
+no_build_regions_list = [region_name for region_name in mission_tags if MissionTags.NoBuild in mission_tags[region_name]]
+easy_regions_list = ["The Outlaws", "Zero Hour", "Evacuation", "Outbreak", "Smash and Grab", "Devil's Playground"]
+medium_regions_list = ["Safe Haven", "Haven's Fall", "The Dig", "The Moebius Factor", "Supernova",
+                       "Welcome to the Jungle", "The Great Train Robbery", "Cutthroat", "Media Blitz",
+                       "A Sinister Turn", "Echoes of the Future"]
+hard_regions_list = ["Maw of the Void", "Engine of Destruction", "In Utter Darkness", "Gates of Hell",
+                     "Shatter the Sky"]
 
 
 def filter_missions(multiworld: MultiWorld, player: int) -> Dict[int, List[str]]:

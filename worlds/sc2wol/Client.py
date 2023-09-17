@@ -34,6 +34,7 @@ from worlds.sc2wol import SC2WoLWorld
 from worlds.sc2wol.Items import lookup_id_to_name, get_full_item_list, ItemData, type_flaggroups, upgrade_numbers
 from worlds.sc2wol.Locations import SC2WOL_LOC_ID_OFFSET
 from worlds.sc2wol.MissionTables import lookup_id_to_mission
+from worlds.sc2wol import Options
 from worlds.sc2wol.Regions import MissionInfo
 
 import colorama
@@ -936,7 +937,7 @@ def calc_available_missions(ctx: SC2Context, unlocks=None):
     return available_missions
 
 
-def mission_reqs_completed(ctx: SC2Context, mission_name: str, missions_complete: int):
+def mission_reqs_completed(ctx: SC2Context, mission_name: str, missions_complete: int) -> bool:
     """Returns a bool signifying if the mission has all requirements complete and can be done
 
     Arguments:
@@ -962,7 +963,11 @@ def mission_reqs_completed(ctx: SC2Context, mission_name: str, missions_complete
                     req_success = False
 
             # Grid-specific logic (to avoid long path checks and infinite recursion)
-            if ctx.mission_order in (3, 4):
+            if ctx.mission_order in (
+                Options.MissionOrder.option_medium_grid,
+                Options.MissionOrder.option_mini_grid,
+                Options.MissionOrder.option_grid,
+            ):
                 if req_success:
                     return True
                 else:
@@ -1137,7 +1142,7 @@ class DllDirectory:
         return False
 
 
-def download_latest_release_zip(owner: str, repo: str, api_version: str, metadata: str = None, force_download=False) -> (str, str):
+def download_latest_release_zip(owner: str, repo: str, api_version: str, metadata: str = None, force_download=False) -> typing.Tuple[str, str]:
     """Downloads the latest release of a GitHub repo to the current directory as a .zip file."""
     import requests
 

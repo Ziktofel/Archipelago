@@ -1,4 +1,4 @@
-from typing import Dict, FrozenSet, Union
+from typing import Dict, FrozenSet, Union, Optional
 from BaseClasses import MultiWorld
 from Options import Choice, Option, Toggle, DefaultOnToggle, ItemSet, OptionSet, Range
 from .MissionTables import vanilla_mission_req_table
@@ -60,23 +60,25 @@ class MissionOrder(Choice):
     Vanilla (29): Keeps the standard mission order and branching from the WoL Campaign.
     Vanilla Shuffled (29): Keeps same branching paths from the WoL Campaign but randomizes the order of missions within.
     Mini Campaign (15): Shorter version of the campaign with randomized missions and optional branches.
-    Grid (16):  A 4x4 grid of random missions.  Start at the top-left and forge a path towards bottom-right mission to win.
+    Medium Grid (16):  A 4x4 grid of random missions.  Start at the top-left and forge a path towards bottom-right mission to win.
     Mini Grid (9):  A 3x3 version of Grid.  Complete the bottom-right mission to win.
     Blitz (12):  12 random missions that open up very quickly.  Complete the bottom-right mission to win.
     Gauntlet (7): Linear series of 7 random missions to complete the campaign.
     Mini Gauntlet (4): Linear series of 4 random missions to complete the campaign.
     Tiny Grid (4): A 2x2 version of Grid.  Complete the bottom-right mission to win.
+    Grid (variable): A grid that will resize to use all non-excluded missions.  Corners may be omitted to make the grid more square.  Complete the bottom-right mission to win.
     """
     display_name = "Mission Order"
     option_vanilla = 0
     option_vanilla_shuffled = 1
     option_mini_campaign = 2
-    option_grid = 3
+    option_medium_grid = 3
     option_mini_grid = 4
     option_blitz = 5
     option_gauntlet = 6
     option_mini_gauntlet = 7
     option_tiny_grid = 8
+    option_grid = 9
 
 
 class PlayerColor(Choice):
@@ -353,7 +355,7 @@ sc2wol_options: Dict[str, Option] = {
 }
 
 
-def get_option_value(multiworld: MultiWorld, player: int, name: str) -> Union[int,  FrozenSet]:
+def get_option_value(multiworld: Optional[MultiWorld], player: int, name: str) -> Union[int,  FrozenSet]:
     if multiworld is None:
         return sc2wol_options[name].default
 

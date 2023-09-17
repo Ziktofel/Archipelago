@@ -9,7 +9,7 @@ from .Locations import get_locations, LocationType
 from .Regions import create_regions
 from .Options import sc2wol_options, get_option_value, LocationInclusion
 from .LogicMixin import SC2WoLLogic
-from .PoolFilter import filter_missions, filter_items, get_item_upgrades
+from .PoolFilter import filter_items, get_item_upgrades
 from .MissionTables import starting_mission_locations, MissionInfo
 
 
@@ -163,7 +163,7 @@ def get_item_pool(multiworld: MultiWorld, player: int, mission_req_table: Dict[s
     pool: List[Item] = []
 
     # For the future: goal items like Artifact Shards go here
-    locked_items = []
+    locked_items: List[Item] = []
 
     # YAML items
     yaml_locked_items = get_option_value(multiworld, player, 'locked_items')
@@ -232,7 +232,7 @@ def create_item_with_correct_settings(player: int, name: str) -> Item:
     return item
 
 
-def pool_contains_parent(item: Item, pool: [Item]):
+def pool_contains_parent(item: Item, pool: List[Item]):
     item_data = get_full_item_list().get(item.name)
     if item_data.parent_item is None:
         # The item has not associated parent, the item is valid
