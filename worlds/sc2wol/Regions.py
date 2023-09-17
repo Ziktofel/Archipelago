@@ -1,9 +1,10 @@
-from typing import List, Set, Dict, Tuple, Optional, Callable
+from typing import List, Set, Dict, Tuple, Optional, Callable, Union
+import math
 from BaseClasses import MultiWorld, Region, Entrance, Location, CollectionState
 from .Locations import LocationData
 from .Options import get_option_value, MissionOrder
 from .MissionTables import MissionInfo, mission_orders, vanilla_mission_req_table, alt_final_mission_locations, \
-    MissionPools, vanilla_shuffle_order
+    MissionPools, mission_pool_names, vanilla_shuffle_order
 from .PoolFilter import filter_missions
 
 PROPHECY_CHAIN_MISSION_COUNT = 4
@@ -129,10 +130,89 @@ def create_grid_regions(
     
     locations_per_region = initialize_locations_per_region(locations)
     regions = [create_region(multiworld, player, locations_per_region, location_cache, "Menu")]
+    mission_pools = filter_missions(multiworld, player)
 
     # Generating all regions and locations
     names: Dict[str, int] = {}
-    raise NotImplementedError('Variable-size grid is work-in-progress')
+    num_missions = sum(len(pool) for _, pool in mission_pools.items())
+    missions: Dict[Tuple[int, int], str] = {}
+    final_mission = mission_pools[MissionPools.FINAL][0]
+
+    grid_size_x, grid_size_y, num_corners_to_remove = get_grid_dimensions(num_missions)
+    # pick missions in order along concentric diagonals
+    # each diagonal will have the same difficulty
+    # this keeps long sides from possibly stealing lower-difficulty missions from future columns
+    num_diagonals = grid_size_x + grid_size_y - 1
+    diagonal_difficulty = MissionPools.STARTER
+    missions_to_add = mission_pools[MissionPools.STARTER]
+    for diagonal in range(num_diagonals):
+        if diagonal == num_diagonals - 1:
+            diagonal_difficulty = MissionPools.FINAL
+            grid_coords = (grid_size_x-1, grid_size_y-1)
+            missions[grid_coords] = mission_pools[MissionPools.FINAL][0]
+            break
+        diagonal_length = min(diagonal + 1, num_diagonals - diagonal, grid_size_x, grid_size_y)
+        if len(missions_to_add) < diagonal_length:
+            raise Exception(f"There are not enough {mission_pool_names[diagonal_difficulty]} missions to fill the campaign.  Please exclude fewer missions.")
+        for i in range(diagonal_length):
+            # (0,0) + (1,0)*diagonal + (-1,1)*i + (-1,1)*max(diagonal - grid_size_x + 1, 0)
+            grid_coords = (diagonal - i - max(diagonal - grid_size_x + 1, 0), i + max(diagonal - grid_size_x + 1, 0))
+            if grid_coords == (grid_size_x - 1, 0) and num_corners_to_remove >= 2:
+                missions[grid_coords] = ''
+            elif grid_coords == (0, grid_size_y - 1) and num_corners_to_remove >= 1:
+                missions[grid_coords] = ''
+            else:
+                mission_index = multiworld.random.randint(0, len(missions_to_add) - 1)
+                missions[grid_coords] = missions_to_add.pop(mission_index)
+
+        if diagonal_difficulty < MissionPools.HARD:
+            diagonal_difficulty += 1
+            missions_to_add.extend(mission_pools[diagonal_difficulty])
+
+    # Generating regions and locations from selected missions
+    mission_coords_to_id: Dict[Tuple[int, int], int] = {}
+    for x in range(grid_size_x):
+        for y in range(grid_size_y):
+            if (missions[(x, y)]):
+                mission_coords_to_id[(x, y)] = len(regions)
+                regions.append(create_region(multiworld, player, locations_per_region, location_cache, missions[(x, y)]))
+    multiworld.regions += regions
+
+    mission_req_table: Dict[str, MissionInfo] = {}
+    for coords, mission in missions.items():
+        if not mission:
+            continue
+        connections: List[str] = []
+        if coords == (0, 0):
+            # Connect to the "Menu" starting region
+            connect(multiworld, player, names, "Menu", mission)
+        if coords != (0, 0):
+            for dx, dy in ((-1, 0), (1, 0), (0, -1), (0, 1)):
+                connected_coords = (coords[0] + dx, coords[1] + dy)
+                if connected_coords in mission_coords_to_id:
+                    connections.append(missions[connected_coords])
+                    connect(multiworld, player, names, missions[connected_coords], mission,
+                        make_grid_connect_rule(missions, connected_coords, player),
+                    )
+        mission_req_table[mission] = MissionInfo(
+            vanilla_mission_req_table[mission].id,
+            connections,
+            category=f'{coords[0] + 1}',
+            or_requirements=True,
+        )
+
+    final_mission_id = vanilla_mission_req_table[final_mission].id
+    final_location = set_up_final_location(final_mission, location_cache)
+
+    return mission_req_table, final_mission_id, final_location
+
+
+def make_grid_connect_rule(
+    mission_names: Dict[Tuple[int, int], str],
+    connected_coords: Tuple[int, int],
+    player: int
+) -> Callable[[CollectionState], bool]:
+    return lambda state: state.has(f"Beat {mission_names[connected_coords]}", player)
 
 
 def create_structured_regions(
@@ -148,9 +228,12 @@ def create_structured_regions(
 
     names: Dict[str, int] = {}
     mission_order = mission_orders[mission_order_type]
-    missions = []
+    missions: List[Union[str, int, None]] = []
 
-    remove_prophecy = mission_order_type == 1 and not get_option_value(multiworld, player, "shuffle_protoss")
+    remove_prophecy = (
+        mission_order_type == MissionOrder.option_vanilla_shuffled
+        and not get_option_value(multiworld, player, "shuffle_protoss")
+    )
 
     final_mission = mission_pools[MissionPools.FINAL][0]
 
@@ -167,8 +250,7 @@ def create_structured_regions(
         # Also handle lower removal priority than Prophecy
         if 0 < mission.removal_priority <= removals or mission.category == 'Prophecy' and remove_prophecy \
                 or (remove_prophecy and mission_order_type == MissionOrder.option_vanilla_shuffled
-                    and mission.removal_priority > vanilla_shuffle_order[
-                        VANILLA_SHUFFLED_FIRST_PROPHECY_MISSION].removal_priority
+                    and mission.removal_priority > vanilla_shuffle_order[VANILLA_SHUFFLED_FIRST_PROPHECY_MISSION].removal_priority
                     and 0 < mission.removal_priority <= removals + PROPHECY_CHAIN_MISSION_COUNT):
             missions.append(None)
         elif mission.type == MissionPools.FINAL:
@@ -236,7 +318,7 @@ def create_structured_regions(
     multiworld.regions += regions
 
     # Mapping original mission slots to shifted mission slots when missions are removed
-    slot_map = []
+    slot_map: List[int] = []
     slot_offset = 0
     for position, mission in enumerate(missions):
         slot_map.append(position - slot_offset + 1)
@@ -258,8 +340,8 @@ def create_structured_regions(
     for i, mission in enumerate(missions):
         if mission is None:
             continue
-        connections = []
-        all_connections = []
+        connections: List[int] = []
+        all_connections: List[str] = []
         for connection in mission_order[i].connect_to:
             if connection == -1:
                 continue
@@ -288,10 +370,21 @@ def create_structured_regions(
             or_requirements=mission_order[i].or_requirements)})
 
     final_mission_id = vanilla_mission_req_table[final_mission].id
+    final_location = set_up_final_location(final_mission, location_cache)
 
-    # Changing the completion condition for alternate final missions into an event
-    if final_mission != 'All-In':
-        final_location = alt_final_mission_locations[final_mission]
+    return mission_req_table, final_mission_id, final_location
+
+
+# ===== Helper methods =====
+
+
+def set_up_final_location(final_mission_name: str, location_cache: List[Location]) -> str:
+    """
+    Changes the completion condition for alternate final missions into an event.
+    Returns the name of the final location.
+    """
+    if final_mission_name != 'All-In':
+        final_location = alt_final_mission_locations[final_mission_name]
         # Final location should be near the end of the cache
         for i in range(len(location_cache) - 1, -1, -1):
             if location_cache[i].name == final_location:
@@ -299,13 +392,9 @@ def create_structured_regions(
                 location_cache[i].event = True
                 location_cache[i].address = None
                 break
+        return final_location
     else:
-        final_location = 'All-In: Victory'
-
-    return mission_req_table, final_mission_id, final_location
-
-
-# ===== Private helper methods =====
+        return 'All-In: Victory'
 
 
 def create_region(multiworld: MultiWorld, player: int, locations_per_region: Dict[str, List[LocationData]],
@@ -362,4 +451,32 @@ def initialize_locations_per_region(locations: Tuple[LocationData, ...]) -> Dict
         per_region.setdefault(location.region, []).append(location)
 
     return per_region
+
+
+def get_factors(number: int) -> Tuple[int, int]:
+    """
+    Simple factorization into pairs of numbers (x, y) using a sieve method.
+    Returns the factorization that is most square, i.e. where x + y is minimized.
+    Factor order is such that x <= y.
+    """
+    assert number > 0
+    for divisor in range(math.floor(math.sqrt(number) + 1), 0, -1):
+        quotient = number // divisor
+        if quotient * divisor == number:
+            return (divisor, quotient)
+    raise Exception('Expected to return before exiting loop')
+
+
+def get_grid_dimensions(size: int) -> Tuple[int, int, int]:
+    """
+    Get the dimensions of a grid mission order from the number of missions, int the format (x, y, error).
+    Error will always be 0, 1, or 2, so the missions can be removed from the corners that aren't the start or end.
+    Dimensions are chosen such that x <= y, as buttons in the UI are wider than they are tall.
+    Dimensions are chosen to be maximally square. That is, x + y + error is minimized.
+    If multiple options of the same rating are possible, the one with the larger error is chosen,
+    as it will appear more square. Compare 3x11 to 5x7-2 for an example of this.
+    """
+    dimension_candidates = [(*get_factors(size+x), x) for x in range(2, -1, -1)]
+    best_dimension = min(dimension_candidates, key=sum)
+    return best_dimension
 

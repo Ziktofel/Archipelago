@@ -471,9 +471,12 @@ class SC2Context(CommonContext):
                                     text = f"[color=a9a9a9]{text}[/color]"
                                     tooltip = f"Requires: "
                                     if self.ctx.mission_req_table[mission].required_world:
-                                        tooltip += ", ".join(list(self.ctx.mission_req_table)[req_mission - 1] for
-                                                             req_mission in
-                                                             self.ctx.mission_req_table[mission].required_world)
+                                        if isinstance(self.ctx.mission_req_table[mission].required_world[0], str):
+                                            tooltip += ', '.join(self.ctx.mission_req_table[mission].required_world)
+                                        else:
+                                            tooltip += ", ".join(list(self.ctx.mission_req_table)[req_mission - 1] for
+                                                                req_mission in
+                                                                self.ctx.mission_req_table[mission].required_world)
 
                                         if self.ctx.mission_req_table[mission].number:
                                             tooltip += " and "
@@ -827,7 +830,7 @@ def request_unfinished_missions(ctx: SC2Context):
         sc2_logger.warning("No mission table found, you are likely not connected to a server.")
 
 
-def calc_unfinished_missions(ctx: SC2Context, unlocks=None):
+def calc_unfinished_missions(ctx: SC2Context, unlocks: typing.Dict[str, list]=None):
     unfinished_missions = []
     locations_completed = []
 
@@ -916,7 +919,7 @@ def request_available_missions(ctx: SC2Context):
         sc2_logger.warning("No mission table found, you are likely not connected to a server.")
 
 
-def calc_available_missions(ctx: SC2Context, unlocks=None):
+def calc_available_missions(ctx: SC2Context, unlocks: typing.Dict[str, list]={}):
     available_missions = []
     missions_complete = 0
 
@@ -929,7 +932,10 @@ def calc_available_missions(ctx: SC2Context, unlocks=None):
         # Go through the required missions for each mission and fill up unlock table used later for hover-over tooltips
         if unlocks:
             for unlock in ctx.mission_req_table[name].required_world:
-                unlocks[list(ctx.mission_req_table)[unlock - 1]].append(name)
+                if isinstance(unlock, str):
+                    unlocks[unlock].append(name)
+                else:
+                    unlocks[list(ctx.mission_req_table)[unlock - 1]].append(name)
 
         if mission_reqs_completed(ctx, name, missions_complete):
             available_missions.append(name)
@@ -954,9 +960,15 @@ def mission_reqs_completed(ctx: SC2Context, mission_name: str, missions_complete
         for req_mission in ctx.mission_req_table[mission_name].required_world:
             req_success = True
 
+            required_mission_name = (
+                req_mission
+                if isinstance(req_mission, str)
+                else list(ctx.mission_req_table)[req_mission - 1]
+            )
+            required_mission_id = ctx.mission_req_table[required_mission_name].id
+
             # Check if required mission has been completed
-            if not (ctx.mission_req_table[list(ctx.mission_req_table)[req_mission - 1]].id *
-                    victory_modulo + SC2WOL_LOC_ID_OFFSET) in ctx.checked_locations:
+            if not (required_mission_id * victory_modulo + SC2WOL_LOC_ID_OFFSET) in ctx.checked_locations:
                 if not ctx.mission_req_table[mission_name].or_requirements:
                     return False
                 else:
@@ -971,14 +983,14 @@ def mission_reqs_completed(ctx: SC2Context, mission_name: str, missions_complete
                 if req_success:
                     return True
                 else:
-                    if req_mission is ctx.mission_req_table[mission_name].required_world[-1]:
+                    if req_mission == ctx.mission_req_table[mission_name].required_world[-1]:
                         return False
                     else:
                         continue
 
             # Recursively check required mission to see if it's requirements are met, in case !collect has been done
             # Skipping recursive check on Grid settings to speed up checks and avoid infinite recursion
-            if not mission_reqs_completed(ctx, list(ctx.mission_req_table)[req_mission - 1], missions_complete):
+            if not mission_reqs_completed(ctx, required_mission_name, missions_complete):
                 if not ctx.mission_req_table[mission_name].or_requirements:
                     return False
                 else:
@@ -1002,8 +1014,8 @@ def mission_reqs_completed(ctx: SC2Context, mission_name: str, missions_complete
         return True
 
 
-def initialize_blank_mission_dict(location_table):
-    unlocks = {}
+def initialize_blank_mission_dict(location_table: typing.Dict[str, MissionInfo]):
+    unlocks: typing.Dict[str, list] = {}
 
     for mission in list(location_table):
         unlocks[mission] = []

@@ -1,4 +1,4 @@
-from typing import NamedTuple, Dict, List
+from typing import NamedTuple, Dict, List, Union
 from enum import IntEnum, Flag, auto
 
 
@@ -26,9 +26,12 @@ class MissionPools(IntEnum):
     FINAL = 4
 
 
+mission_pool_names = ['Starter', 'Easy', 'Medium', 'Hard', 'Final']
+
+
 class MissionInfo(NamedTuple):
     id: int
-    required_world: List[int]
+    required_world: Union[List[int], List[str]]
     category: str
     number: int = 0  # number of worlds need beaten
     completion_critical: bool = False  # missions needed to beat game
