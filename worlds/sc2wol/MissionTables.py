@@ -262,7 +262,7 @@ mission_tags = {
     "Whispers of Doom":         MissionTags.Prophecy | MissionTags.VsZerg | MissionTags.NoBuild,
     "A Sinister Turn":          MissionTags.Prophecy | MissionTags.VsProtoss,
     "Echoes of the Future":     MissionTags.Prophecy | MissionTags.VsZerg | MissionTags.Hero,
-    "In Utter Darkness":        MissionTags.Prophecy | MissionTags.VsZerg | MissionTags.Hero,
+    "In Utter Darkness":        MissionTags.Prophecy | MissionTags.VsZerg | MissionTags.Hero | MissionTags.TimedDefense,
     "Gates of Hell":            MissionTags.Char | MissionTags.VsZerg,
     "Belly of the Beast":       MissionTags.Char | MissionTags.VsZerg | MissionTags.NoBuild | MissionTags.Hero,
     "Shatter the Sky":          MissionTags.Char | MissionTags.VsZerg,

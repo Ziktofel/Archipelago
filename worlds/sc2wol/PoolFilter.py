@@ -65,29 +65,49 @@ def filter_missions(multiworld: MultiWorld, player: int) -> Dict[int, List[str]]
     for difficulty, mission_pool in mission_pools.items():
         mission_pools[difficulty] = [mission for mission in mission_pool if mission not in excluded_missions]
     mission_pools[MissionPools.FINAL].append(final_mission)
-    # Mission pool changes on Build-Only
-    if not get_option_value(multiworld, player, 'shuffle_no_build'):
-        def move_mission(mission_name, current_pool, new_pool):
-            if mission_name in mission_pools[current_pool]:
-                mission_pools[current_pool].remove(mission_name)
-                mission_pools[new_pool].append(mission_name)
-        # Replacing No Build missions with Easy missions
-        move_mission("Zero Hour", MissionPools.EASY, MissionPools.STARTER)
-        move_mission("Evacuation", MissionPools.EASY, MissionPools.STARTER)
+
+    # Mission pool changes on Build-Only or to account for excluded missions
+    def move_mission(mission_name, current_pool, new_pool):
+        if mission_name in mission_pools[current_pool]:
+            mission_pools[current_pool].remove(mission_name)
+            mission_pools[new_pool].append(mission_name)
+
+    TARGET_START_MISSION_POOL_SIZE = 5
+    TARGET_EASY_MISSION_POOL_SIZE = 7
+    TARGET_MEDIUM_MISSION_POOL_SIZE = 10
+    has_logic: bool = (multiworld.required_tactics[player] < 2 or multiworld.early_unit[player])
+    # Replacing No Build missions with Easy missions
+    if len(mission_pools[MissionPools.STARTER]) < TARGET_START_MISSION_POOL_SIZE:
         move_mission("Devil's Playground", MissionPools.EASY, MissionPools.STARTER)
+    if len(mission_pools[MissionPools.STARTER]) < TARGET_START_MISSION_POOL_SIZE:
+        move_mission("Zero Hour", MissionPools.EASY, MissionPools.STARTER)
+    if len(mission_pools[MissionPools.STARTER]) < TARGET_START_MISSION_POOL_SIZE and has_logic:
+        move_mission("Evacuation", MissionPools.EASY, MissionPools.STARTER)
+    if len(mission_pools[MissionPools.STARTER]) < TARGET_START_MISSION_POOL_SIZE:
         # Pushing Outbreak to Normal, as it cannot be placed as the second mission on Build-Only
         move_mission("Outbreak", MissionPools.EASY, MissionPools.MEDIUM)
-        # Pushing extra Normal missions to Easy
-        move_mission("The Great Train Robbery", MissionPools.MEDIUM, MissionPools.EASY)
+    # Pushing extra Normal missions to Easy
+    if len(mission_pools[MissionPools.EASY]) <= TARGET_EASY_MISSION_POOL_SIZE:
         move_mission("Echoes of the Future", MissionPools.MEDIUM, MissionPools.EASY)
+    if len(mission_pools[MissionPools.EASY]) <= TARGET_EASY_MISSION_POOL_SIZE:
         move_mission("Cutthroat", MissionPools.MEDIUM, MissionPools.EASY)
-        # Additional changes on Advanced Tactics
-        if get_option_value(multiworld, player, "required_tactics") > 0:
-            move_mission("The Great Train Robbery", MissionPools.EASY, MissionPools.STARTER)
+    if len(mission_pools[MissionPools.EASY]) <= TARGET_EASY_MISSION_POOL_SIZE:
+        move_mission("The Great Train Robbery", MissionPools.MEDIUM, MissionPools.EASY)
+    # Advanced tactics adjustments
+    if multiworld.required_tactics[player] > 0:
+        if len(mission_pools[MissionPools.STARTER]) < TARGET_START_MISSION_POOL_SIZE and has_logic:
             move_mission("Smash and Grab", MissionPools.EASY, MissionPools.STARTER)
+        if len(mission_pools[MissionPools.EASY]) <= TARGET_EASY_MISSION_POOL_SIZE:
             move_mission("Moebius Factor", MissionPools.MEDIUM, MissionPools.EASY)
-            move_mission("Welcome to the Jungle", MissionPools.MEDIUM, MissionPools.EASY)
+        if len(mission_pools[MissionPools.EASY]) <= TARGET_EASY_MISSION_POOL_SIZE:
+            move_mission("Media Blitz", MissionPools.MEDIUM, MissionPools.EASY)
+        if len(mission_pools[MissionPools.MEDIUM]) <= TARGET_MEDIUM_MISSION_POOL_SIZE:
             move_mission("Engine of Destruction", MissionPools.HARD, MissionPools.MEDIUM)
+        if len(mission_pools[MissionPools.STARTER]) < TARGET_START_MISSION_POOL_SIZE and has_logic:
+            move_mission("The Great Train Robbery", MissionPools.MEDIUM, MissionPools.STARTER)
+            move_mission("The Great Train Robbery", MissionPools.EASY, MissionPools.STARTER)
+        if len(mission_pools[MissionPools.EASY]) <= TARGET_EASY_MISSION_POOL_SIZE and has_logic:
+            move_mission("Welcome to the Jungle", MissionPools.MEDIUM, MissionPools.EASY)
 
     return mission_pools
 
