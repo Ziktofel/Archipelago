@@ -29,6 +29,10 @@ class MissionPools(IntEnum):
 mission_pool_names = ['Starter', 'Easy', 'Medium', 'Hard', 'Final']
 
 
+class MissionInfoUiFlags(Flag):
+    PrependSpacer = auto()
+
+
 class MissionInfo(NamedTuple):
     id: int
     required_world: Union[List[int], List[str]]
@@ -36,6 +40,7 @@ class MissionInfo(NamedTuple):
     number: int = 0  # number of worlds need beaten
     completion_critical: bool = False  # missions needed to beat game
     or_requirements: bool = False  # true if the requirements should be or-ed instead of and-ed
+    ui_flags: int = 0  # for sending flags to the UI. Uses MissionInfoUiFlags, but stored as an int so pickling works
 
 
 class FillMission(NamedTuple):

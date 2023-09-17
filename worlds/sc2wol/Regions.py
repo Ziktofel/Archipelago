@@ -3,8 +3,9 @@ import math
 from BaseClasses import MultiWorld, Region, Entrance, Location, CollectionState
 from .Locations import LocationData
 from .Options import get_option_value, MissionOrder
-from .MissionTables import MissionInfo, mission_orders, vanilla_mission_req_table, alt_final_mission_locations, \
-    MissionPools, mission_pool_names, vanilla_shuffle_order
+from .MissionTables import (MissionInfo, MissionInfoUiFlags, mission_orders,
+    vanilla_mission_req_table, alt_final_mission_locations,
+    MissionPools, mission_pool_names, vanilla_shuffle_order)
 from .PoolFilter import filter_missions
 
 PROPHECY_CHAIN_MISSION_COUNT = 4
@@ -180,6 +181,7 @@ def create_grid_regions(
 
     mission_req_table: Dict[str, MissionInfo] = {}
     for coords, mission in missions.items():
+        ui_flags: MissionInfoUiFlags = MissionInfoUiFlags(0)
         if not mission:
             continue
         connections: List[str] = []
@@ -194,11 +196,14 @@ def create_grid_regions(
                     connect(multiworld, player, names, missions[connected_coords], mission,
                         make_grid_connect_rule(missions, connected_coords, player),
                     )
+        if len(connections) == 2 and coords[1] == 1:
+            ui_flags |= MissionInfoUiFlags.PrependSpacer
         mission_req_table[mission] = MissionInfo(
             vanilla_mission_req_table[mission].id,
             connections,
             category=f'{coords[0] + 1}',
             or_requirements=True,
+            ui_flags=ui_flags.value,
         )
 
     final_mission_id = vanilla_mission_req_table[final_mission].id

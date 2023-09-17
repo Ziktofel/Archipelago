@@ -35,7 +35,7 @@ from worlds.sc2wol.Items import lookup_id_to_name, get_full_item_list, ItemData,
 from worlds.sc2wol.Locations import SC2WOL_LOC_ID_OFFSET
 from worlds.sc2wol.MissionTables import lookup_id_to_mission
 from worlds.sc2wol import Options
-from worlds.sc2wol.Regions import MissionInfo
+from worlds.sc2wol.Regions import MissionInfo, MissionInfoUiFlags
 
 import colorama
 from NetUtils import ClientStatus, NetworkItem, RawJSONtoTextParser, JSONtoTextParser, JSONMessagePart
@@ -458,6 +458,12 @@ class SC2Context(CommonContext):
                                 Label(text=category_display_name, size_hint_y=None, height=50, outline_width=1))
 
                             for mission in categories[category]:
+                                if (len(self.ctx.mission_req_table[mission]) > 6
+                                    and MissionInfoUiFlags.PrependSpacer in MissionInfoUiFlags(self.ctx.mission_req_table[mission].ui_flags)
+                                ):
+                                    column_spacer = Label(text='', size_hint_y=None, height=50)
+                                    category_panel.add_widget(column_spacer)
+
                                 text: str = mission
                                 tooltip: str = ""
                                 mission_id: int = self.ctx.mission_req_table[mission].id
