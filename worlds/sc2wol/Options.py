@@ -81,6 +81,26 @@ class MissionOrder(Choice):
     option_grid = 9
 
 
+class MaximumCampaignSize(Range):
+    """
+    Sets an upper bound on how many missions to include when a variable-size mission order is selected.
+    If a set-size mission order is selected, does nothing.
+    """
+    display_name = "Maximum Campaign Size"
+    range_start = 4
+    range_end = 29
+    default = 29
+
+
+class GridTwoStartPositions(Toggle):
+    """
+    If turned on and 'grid' mission order is selected, removes a mission from the starting
+    corner sets the adjacent two missions as the starter missions.
+    """
+    display_name = "Start with two unlocked missions on grid"
+    default = Toggle.option_false
+
+
 class PlayerColor(Choice):
     """Determines in-game team color."""
     display_name = "Player Color"
@@ -332,6 +352,8 @@ sc2wol_options: Dict[str, Option] = {
     "all_in_map": AllInMap,
     "final_map": FinalMap,
     "mission_order": MissionOrder,
+    "maximum_campaign_size": MaximumCampaignSize,
+    "grid_two_start_positions": GridTwoStartPositions,
     "player_color": PlayerColor,
     "shuffle_protoss": ShuffleProtoss,
     "shuffle_no_build": ShuffleNoBuild,

@@ -136,10 +136,12 @@ def create_grid_regions(
     # Generating all regions and locations
     names: Dict[str, int] = {}
     num_missions = sum(len(pool) for _, pool in mission_pools.items())
+    num_missions = min(num_missions, multiworld.maximum_campaign_size[player])
+    remove_top_left: bool = multiworld.grid_two_start_positions[player]
     missions: Dict[Tuple[int, int], str] = {}
     final_mission = mission_pools[MissionPools.FINAL][0]
 
-    grid_size_x, grid_size_y, num_corners_to_remove = get_grid_dimensions(num_missions)
+    grid_size_x, grid_size_y, num_corners_to_remove = get_grid_dimensions(num_missions + remove_top_left)
     # pick missions in order along concentric diagonals
     # each diagonal will have the same difficulty
     # this keeps long sides from possibly stealing lower-difficulty missions from future columns
@@ -152,10 +154,12 @@ def create_grid_regions(
             grid_coords = (grid_size_x-1, grid_size_y-1)
             missions[grid_coords] = mission_pools[MissionPools.FINAL][0]
             break
+        if diagonal == 0 and remove_top_left:
+            continue
         diagonal_length = min(diagonal + 1, num_diagonals - diagonal, grid_size_x, grid_size_y)
         if len(missions_to_add) < diagonal_length:
             raise Exception(f"There are not enough {mission_pool_names[diagonal_difficulty]} missions to fill the campaign.  Please exclude fewer missions.")
-        for i in range(diagonal_length):
+        for i in range(diagonal_length-1, -1, -1):
             # (0,0) + (1,0)*diagonal + (-1,1)*i + (-1,1)*max(diagonal - grid_size_x + 1, 0)
             grid_coords = (diagonal - i - max(diagonal - grid_size_x + 1, 0), i + max(diagonal - grid_size_x + 1, 0))
             if grid_coords == (grid_size_x - 1, 0) and num_corners_to_remove >= 2:
@@ -174,7 +178,7 @@ def create_grid_regions(
     mission_coords_to_id: Dict[Tuple[int, int], int] = {}
     for x in range(grid_size_x):
         for y in range(grid_size_y):
-            if (missions[(x, y)]):
+            if (missions.get((x, y))):
                 mission_coords_to_id[(x, y)] = len(regions)
                 regions.append(create_region(multiworld, player, locations_per_region, location_cache, missions[(x, y)]))
     multiworld.regions += regions
@@ -185,10 +189,10 @@ def create_grid_regions(
         if not mission:
             continue
         connections: List[str] = []
-        if coords == (0, 0):
+        if coords == (0, 0) or (remove_top_left and sum(coords) == 1):
             # Connect to the "Menu" starting region
             connect(multiworld, player, names, "Menu", mission)
-        if coords != (0, 0):
+        else:
             for dx, dy in ((-1, 0), (1, 0), (0, -1), (0, 1)):
                 connected_coords = (coords[0] + dx, coords[1] + dy)
                 if connected_coords in mission_coords_to_id:
@@ -196,12 +200,12 @@ def create_grid_regions(
                     connect(multiworld, player, names, missions[connected_coords], mission,
                         make_grid_connect_rule(missions, connected_coords, player),
                     )
-        if len(connections) == 2 and coords[1] == 1:
+        if coords[1] == 1 and (coords[0], 0) not in missions:
             ui_flags |= MissionInfoUiFlags.PrependSpacer
         mission_req_table[mission] = MissionInfo(
             vanilla_mission_req_table[mission].id,
             connections,
-            category=f'{coords[0] + 1}',
+            category=f'_{coords[0] + 1}',
             or_requirements=True,
             ui_flags=ui_flags.value,
         )
