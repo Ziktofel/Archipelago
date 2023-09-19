@@ -205,7 +205,7 @@ def create_grid_regions(
                     connect(multiworld, player, names, missions[connected_coords], mission,
                         make_grid_connect_rule(missions, connected_coords, player),
                     )
-        if coords[1] == 1 and (coords[0], 0) not in missions:
+        if coords[1] == 1 and not missions.get((coords[0], 0)):
             ui_flags |= MissionInfoUiFlags.PrependSpacer
         mission_req_table[mission] = MissionInfo(
             vanilla_mission_req_table[mission].id,
