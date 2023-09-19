@@ -8,9 +8,14 @@ from .MissionTables import (MissionInfo, MissionInfoUiFlags, mission_orders,
     MissionPools, mission_pool_names, vanilla_shuffle_order)
 from .PoolFilter import filter_missions
 
+# Allows for backward compatibility.
+# Can be changed independently of the Archipelago version for asynchronous release
+MISSION_GENERATOR_VERSION = 1
+
 PROPHECY_CHAIN_MISSION_COUNT = 4
 
 VANILLA_SHUFFLED_FIRST_PROPHECY_MISSION = 21
+
 
 def create_regions(
     multiworld: MultiWorld,

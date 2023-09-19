@@ -276,6 +276,7 @@ class SC2Context(CommonContext):
     game_speed_override = -1
     mission_id_to_location_ids: typing.Dict[int, typing.List[int]] = {}
     last_bot: typing.Optional[ArchipelagoBot] = None
+    mission_generator_version = 0
 
     def __init__(self, *args, **kwargs):
         super(SC2Context, self).__init__(*args, **kwargs)
@@ -289,6 +290,7 @@ class SC2Context(CommonContext):
 
     def on_package(self, cmd: str, args: dict):
         if cmd in {"Connected"}:
+            self.mission_generator_version = args["slot_data"].get("mission_generator_version", 0)
             self.difficulty = args["slot_data"]["game_difficulty"]
             if "game_speed" in args["slot_data"]:
                 self.game_speed = args["slot_data"]["game_speed"]
@@ -458,7 +460,7 @@ class SC2Context(CommonContext):
                                 Label(text=category_display_name, size_hint_y=None, height=50, outline_width=1))
 
                             for mission in categories[category]:
-                                if (len(self.ctx.mission_req_table[mission]) > 6
+                                if (self.ctx.mission_generator_version > 0
                                     and MissionInfoUiFlags.PrependSpacer in MissionInfoUiFlags(self.ctx.mission_req_table[mission].ui_flags)
                                 ):
                                     column_spacer = Label(text='', size_hint_y=None, height=50)

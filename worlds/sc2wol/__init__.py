@@ -1,12 +1,12 @@
 import typing
 
-from typing import List, Set, Tuple, Dict
+from typing import List, Set, Tuple, Dict, Any
 from BaseClasses import Item, MultiWorld, Location, Tutorial, ItemClassification
 from worlds.AutoWorld import WebWorld, World
 from .Items import StarcraftWoLItem, filler_items, item_name_groups, get_item_table, get_full_item_list, \
     get_basic_units, ItemData, upgrade_included_names, progressive_if_nco
 from .Locations import get_locations, LocationType
-from .Regions import create_regions
+from .Regions import create_regions, MISSION_GENERATOR_VERSION
 from .Options import sc2wol_options, get_option_value, LocationInclusion
 from .LogicMixin import SC2WoLLogic
 from .PoolFilter import filter_items, get_item_upgrades
@@ -83,7 +83,7 @@ class SC2WoLWorld(World):
     def get_filler_item_name(self) -> str:
         return self.multiworld.random.choice(filler_items)
 
-    def fill_slot_data(self):
+    def fill_slot_data(self) -> Dict[str, Any]:
         slot_data = {}
         for option_name in sc2wol_options:
             option = getattr(self.multiworld, option_name)[self.player]
@@ -93,6 +93,7 @@ class SC2WoLWorld(World):
         for mission in self.mission_req_table:
             slot_req_table[mission] = self.mission_req_table[mission]._asdict()
 
+        slot_data["mission_generator_version"] = MISSION_GENERATOR_VERSION
         slot_data["mission_req"] = slot_req_table
         slot_data["final_mission"] = self.final_mission_id
         return slot_data
