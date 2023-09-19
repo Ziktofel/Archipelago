@@ -164,9 +164,9 @@ def create_grid_regions(
         diagonal_length = min(diagonal + 1, num_diagonals - diagonal, grid_size_x, grid_size_y)
         if len(missions_to_add) < diagonal_length:
             raise Exception(f"There are not enough {mission_pool_names[diagonal_difficulty]} missions to fill the campaign.  Please exclude fewer missions.")
-        for i in range(diagonal_length-1, -1, -1):
-            # (0,0) + (1,0)*diagonal + (-1,1)*i + (-1,1)*max(diagonal - grid_size_x + 1, 0)
-            grid_coords = (diagonal - i - max(diagonal - grid_size_x + 1, 0), i + max(diagonal - grid_size_x + 1, 0))
+        for i in range(diagonal_length):
+            # (0,0) + (0,1)*diagonal + (1,-1)*i + (1,-1)*max(diagonal - grid_size_y + 1, 0)
+            grid_coords = (i + max(diagonal - grid_size_y + 1, 0), diagonal - i - max(diagonal - grid_size_y + 1, 0))
             if grid_coords == (grid_size_x - 1, 0) and num_corners_to_remove >= 2:
                 missions[grid_coords] = ''
             elif grid_coords == (0, grid_size_y - 1) and num_corners_to_remove >= 1:
