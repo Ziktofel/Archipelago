@@ -474,20 +474,20 @@ def get_factors(number: int) -> Tuple[int, int]:
     Factor order is such that x <= y.
     """
     assert number > 0
-    for divisor in range(math.floor(math.sqrt(number) + 1), 0, -1):
+    for divisor in range(math.floor(math.sqrt(number) + 1), 1, -1):
         quotient = number // divisor
         if quotient * divisor == number:
-            return (divisor, quotient)
-    raise Exception('Expected to return before exiting loop')
+            return (quotient, divisor)
+    return (1, number)
 
 
 def get_grid_dimensions(size: int) -> Tuple[int, int, int]:
     """
     Get the dimensions of a grid mission order from the number of missions, int the format (x, y, error).
-    Error will always be 0, 1, or 2, so the missions can be removed from the corners that aren't the start or end.
-    Dimensions are chosen such that x <= y, as buttons in the UI are wider than they are tall.
-    Dimensions are chosen to be maximally square. That is, x + y + error is minimized.
-    If multiple options of the same rating are possible, the one with the larger error is chosen,
+    * Error will always be 0, 1, or 2, so the missions can be removed from the corners that aren't the start or end.
+    * Dimensions are chosen such that x <= y, as buttons in the UI are wider than they are tall.
+    * Dimensions are chosen to be maximally square. That is, x + y + error is minimized.
+    * If multiple options of the same rating are possible, the one with the larger error is chosen,
     as it will appear more square. Compare 3x11 to 5x7-2 for an example of this.
     """
     dimension_candidates = [(*get_factors(size+x), x) for x in range(2, -1, -1)]
