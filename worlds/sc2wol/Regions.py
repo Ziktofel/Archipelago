@@ -474,10 +474,10 @@ def get_factors(number: int) -> Tuple[int, int]:
     Factor order is such that x <= y.
     """
     assert number > 0
-    for divisor in range(math.floor(math.sqrt(number) + 1), 1, -1):
+    for divisor in range(math.floor(math.sqrt(number)), 1, -1):
         quotient = number // divisor
         if quotient * divisor == number:
-            return (quotient, divisor)
+            return (divisor, quotient)
     return (1, number)
 
 
@@ -490,7 +490,7 @@ def get_grid_dimensions(size: int) -> Tuple[int, int, int]:
     * If multiple options of the same rating are possible, the one with the larger error is chosen,
     as it will appear more square. Compare 3x11 to 5x7-2 for an example of this.
     """
-    dimension_candidates = [(*get_factors(size+x), x) for x in range(2, -1, -1)]
+    dimension_candidates = [(*get_factors(size+x), x) for x in (2, 1, 0)]
     best_dimension = min(dimension_candidates, key=sum)
     return best_dimension
 
