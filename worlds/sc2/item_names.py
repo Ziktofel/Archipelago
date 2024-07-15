@@ -344,6 +344,7 @@ DEFILER       = "Defiler"
 # Zerg Buildings
 SPORE_CRAWLER = "Spore Crawler"
 SPINE_CRAWLER = "Spine Crawler"
+NYDUS_WORM = "Nydus Worm"
 
 # Zerg Weapon / Armor Upgrades
 ZERG_UPGRADE_PREFIX = "Progressive Zerg"

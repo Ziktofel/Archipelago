@@ -381,7 +381,7 @@ item_name_groups[ItemGroupNames.ZERG_ITEMS] = zerg_items = [
     item_name for item_name, item_data in items.item_table.items()
     if item_data.race == SC2Race.ZERG
 ]
-item_name_groups[ItemGroupNames.ZERG_BUILDINGS] = zerg_buildings = [item_names.SPINE_CRAWLER, item_names.SPORE_CRAWLER]
+item_name_groups[ItemGroupNames.ZERG_BUILDINGS] = zerg_buildings = [item_names.SPINE_CRAWLER, item_names.SPORE_CRAWLER, item_names.NYDUS_WORM,]
 item_name_groups[ItemGroupNames.ZERG_UNITS] = zerg_units = [
     item_name for item_name, item_data in items.item_table.items()
     if item_data.type in (items.ZergItemType.Unit, items.ZergItemType.Mercenary, items.ZergItemType.Morph)

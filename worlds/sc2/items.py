@@ -1098,6 +1098,9 @@ item_table = {
     item_names.DEFILER:
         ItemData(15 + SC2HOTS_ITEM_ID_OFFSET, ZergItemType.Unit, 14, SC2Race.ZERG,
                  classification=ItemClassification.progression, origin={"bw"}),
+    item_names.NYDUS_WORM:
+        ItemData(16 + SC2HOTS_ITEM_ID_OFFSET, ZergItemType.Unit, 15, SC2Race.ZERG,
+                 classification=ItemClassification.progression, origin={"hots"}),
 
     item_names.PROGRESSIVE_ZERG_MELEE_ATTACK: ItemData(100 + SC2HOTS_ITEM_ID_OFFSET, ZergItemType.Upgrade, 0, SC2Race.ZERG, quantity=WEAPON_ARMOR_UPGRADE_MAX_LEVEL, origin={"hots"}),
     item_names.PROGRESSIVE_ZERG_MISSILE_ATTACK: ItemData(101 + SC2HOTS_ITEM_ID_OFFSET, ZergItemType.Upgrade, 4, SC2Race.ZERG, quantity=WEAPON_ARMOR_UPGRADE_MAX_LEVEL, origin={"hots"}),
