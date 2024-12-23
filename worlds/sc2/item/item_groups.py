@@ -641,8 +641,8 @@ protoss_air_wa = [
     item_names.PHOENIX, item_names.MIRAGE, item_names.CORSAIR, item_names.SKIRMISHER,
     item_names.VOID_RAY, item_names.DESTROYER, item_names.WARP_RAY, item_names.DAWNBRINGER,
     item_names.CARRIER, item_names.SKYLORD, item_names.TRIREME,
-    item_names.SCOUT, item_names.TEMPEST, item_names.MOTHERSHIP,
-    item_names.ARBITER, item_names.ORACLE,
+    item_names.SCOUT, item_names.TEMPEST, item_names.SKYLANCER,
+    item_names.ARBITER, item_names.ORACLE, item_names.MOTHERSHIP,
 ]
 item_name_groups[ItemGroupNames.PROTOSS_GENERIC_UPGRADES] = protoss_generic_upgrades = [
     item_name for item_name, item_data in item_tables.item_table.items()
@@ -686,8 +686,8 @@ item_name_groups[ItemGroupNames.STARGATE_UNITS] = stargate_units = [
     item_names.PHOENIX, item_names.SKIRMISHER, item_names.MIRAGE, item_names.CORSAIR,
     item_names.VOID_RAY, item_names.DESTROYER, item_names.WARP_RAY, item_names.DAWNBRINGER,
     item_names.CARRIER, item_names.SKYLORD, item_names.TRIREME,
-    item_names.TEMPEST, item_names.SCOUT, item_names.MOTHERSHIP,
-    item_names.ARBITER, item_names.ORACLE,
+    item_names.TEMPEST, item_names.SCOUT, item_names.SKYLANCER,
+    item_names.ARBITER, item_names.ORACLE, item_names.MOTHERSHIP,
 ]
 item_name_groups[ItemGroupNames.PROTOSS_BUILDINGS] = protoss_buildings = [
     item_name for item_name, item_data in item_tables.item_table.items()
@@ -706,7 +706,7 @@ item_name_groups[ItemGroupNames.NERAZIM_UNITS] = [
 item_name_groups[ItemGroupNames.TAL_DARIM_UNITS] = [
     item_names.SUPPLICANT, item_names.SLAYER, item_names.HAVOC, item_names.BLOOD_HUNTER, item_names.ASCENDANT,
     item_names.VANGUARD, item_names.WRATHWALKER,
-    item_names.SKIRMISHER, item_names.DESTROYER, item_names.SKYLORD, item_names.MOTHERSHIP,
+    item_names.SKIRMISHER, item_names.DESTROYER, item_names.SKYLORD, item_names.SKYLANCER, item_names.MOTHERSHIP,
 ]
 item_name_groups[ItemGroupNames.PURIFIER_UNITS] = [
     item_names.SENTINEL, item_names.ADEPT, item_names.INSTIGATOR, item_names.ENERGIZER,

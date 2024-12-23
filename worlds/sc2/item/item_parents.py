@@ -161,6 +161,10 @@ parent_present[parent_names.CARRIER_CLASS] = AnyOf(
     (item_names.CARRIER, item_names.TRIREME, item_names.SKYLORD),
     main_item=item_names.CARRIER,
 )
+parent_present[parent_names.TEMPEST_CLASS] = AnyOf(
+    (item_names.TEMPEST, item_names.SKYLANCER),
+    main_item=item_names.TEMPEST,
+)
 parent_present[parent_names.CARRIER_OR_TRIREME] = AnyOf(
     (item_names.CARRIER, item_names.TRIREME),
     main_item=item_names.CARRIER,

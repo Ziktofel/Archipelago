@@ -776,7 +776,7 @@ class SC2Logic:
                     defense_rating >= 9 and beats_kerrigan
                     and self.protoss_anti_light_anti_air(state)
                     and state.has_any(
-                {item_names.TEMPEST, item_names.SKYLORD, item_names.VOID_RAY},
+                {item_names.TEMPEST, item_names.SKYLANCER, item_names.VOID_RAY},
                 self.player)
             )
 
@@ -1336,7 +1336,7 @@ class SC2Logic:
         return (
             self.protoss_competent_anti_air(state)
             or state.has_any({
-                item_names.PHOENIX, item_names.MIRAGE, item_names.CORSAIR, item_names.CARRIER, item_names.SKYLORD,
+                item_names.PHOENIX, item_names.MIRAGE, item_names.CORSAIR, item_names.CARRIER,
                 item_names.SCOUT, item_names.DARK_ARCHON, item_names.MOTHERSHIP
             }, self.player)
             or state.has_all({item_names.TRIREME, item_names.TRIREME_SOLAR_BEAM}, self.player)
@@ -1378,7 +1378,7 @@ class SC2Logic:
         return (
             state.has_any({
                 item_names.STALKER, item_names.SLAYER, item_names.INSTIGATOR, item_names.DRAGOON, item_names.ADEPT,
-                item_names.VOID_RAY, item_names.DESTROYER, item_names.TEMPEST, item_names.SKYLORD,
+                item_names.VOID_RAY, item_names.DESTROYER, item_names.TEMPEST, item_names.SKYLORD, item_names.SKYLANCER,
             }, self.player)
             or ((
                     state.has_any({
@@ -1410,7 +1410,7 @@ class SC2Logic:
     def protoss_can_attack_behind_chasm(self, state: CollectionState) -> bool:
         return (
             state.has_any({
-                item_names.SCOUT, item_names.TEMPEST,
+                item_names.SCOUT, item_names.TEMPEST, item_names.SKYLANCER,
                 item_names.CARRIER, item_names.SKYLORD, item_names.TRIREME,
                 item_names.VOID_RAY, item_names.DESTROYER, item_names.WARP_RAY, item_names.DAWNBRINGER,
                 item_names.MOTHERSHIP,
@@ -1431,7 +1431,7 @@ class SC2Logic:
             and self.protoss_competent_anti_air(state)
             and (
                 state.has_any({
-                    item_names.CARRIER, item_names.SKYLORD,
+                    item_names.CARRIER, item_names.SKYLORD, item_names.SKYLANCER,
                 }, self.player)
                 # handle mutas
                 or (state.has_any({
@@ -1452,8 +1452,8 @@ class SC2Logic:
 
     def protoss_fleet(self, state: CollectionState) -> bool:
         return state.has_any({
-            item_names.CARRIER, item_names.SKYLORD, item_names.TRIREME, item_names.TEMPEST, item_names.VOID_RAY,
-            item_names.DESTROYER, item_names.WARP_RAY, item_names.DAWNBRINGER
+            item_names.CARRIER, item_names.SKYLORD, item_names.TRIREME, item_names.TEMPEST, item_names.SKYLANCER,
+            item_names.VOID_RAY, item_names.DESTROYER, item_names.WARP_RAY, item_names.DAWNBRINGER
         }, self.player)
 
     def templars_return_phase_2_requirement(self, state: CollectionState) -> bool:

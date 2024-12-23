@@ -34,6 +34,7 @@ ZERG_FLYING_UNIT = "Zerg Flying Unit"
 
 # Protoss
 ARCHON_SOURCE = "Any Archon Source"
+TEMPEST_CLASS = "Tempest Class"
 CARRIER_CLASS = "Carrier Class"
 CARRIER_OR_TRIREME = "Carrier | Trireme"
 DARK_ARCHON_SOURCE = "Dark Archon Source"
