@@ -108,7 +108,7 @@ class ItemGroupNames:
     TERRAN_ORIGINAL_PROGRESSIVE_UPGRADES = "Terran Original Progressive Upgrades"
     """Progressive items where level 1 appeared in WoL"""
     MENGSK_UNITS = "Mengsk Units"
-    TERRAN_VETERANCY_UNITS = "Terran Veterancy Units"
+    TERRAN_ROYAL_GUARD_UNITS = "Terran Royal Guard Units"
     ORBITAL_COMMAND_ABILITIES = "Orbital Command Abilities"
 
     ZERG_ITEMS = "Zerg Items"
@@ -267,10 +267,14 @@ item_name_groups[ItemGroupNames.MENGSK_UNITS] = [
     item_names.PRIDE_OF_AUGUSTRGRAD, item_names.SKY_FURY,
     item_names.DOMINION_TROOPER,
 ]
-item_name_groups[ItemGroupNames.TERRAN_VETERANCY_UNITS] = [
-    item_names.AEGIS_GUARD, item_names.EMPERORS_SHADOW, item_names.SHOCK_DIVISION, item_names.BLACKHAMMER,
-    item_names.PRIDE_OF_AUGUSTRGRAD, item_names.SKY_FURY, item_names.SON_OF_KORHAL, item_names.FIELD_RESPONSE_THETA,
-    item_names.BULWARK_COMPANY, item_names.NIGHT_HAWK, item_names.EMPERORS_GUARDIAN, item_names.NIGHT_WOLF,
+item_name_groups[ItemGroupNames.TERRAN_ROYAL_GUARD_UNITS] = [
+    item_names.SON_OF_KORHAL, item_names.FIELD_RESPONSE_THETA,
+    item_names.AEGIS_GUARD, item_names.EMPERORS_SHADOW,
+    item_names.BULWARK_COMPANY, item_names.SHOCK_DIVISION,
+    item_names.BLACKHAMMER,
+    item_names.EMPERORS_GUARDIAN, item_names.SKY_FURY,
+    item_names.NIGHT_HAWK, item_names.NIGHT_WOLF,
+    item_names.PRIDE_OF_AUGUSTRGRAD,
 ]
 item_name_groups[ItemGroupNames.ORBITAL_COMMAND_ABILITIES] = orbital_command_abilities = [
     item_names.COMMAND_CENTER_SCANNER_SWEEP,
