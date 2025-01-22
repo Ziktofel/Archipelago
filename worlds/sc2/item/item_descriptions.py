@@ -109,6 +109,10 @@ def _ability_desc(unit_name_plural: str, ability_name: str, ability_description:
     return f"{unit_name_plural} gain the {ability_name} ability{suffix}."
 
 
+def _royal_guard_desc(base_unit_name: str) -> str:
+    return f"Royal Guard {base_unit_name}. Royal Guard units do not benefit from weapon and armour upgrades."
+
+
 item_descriptions = {
     item_names.MARINE: "General-purpose infantry.",
     item_names.MEDIC: "Support trooper. Heals nearby biological units.",
@@ -153,24 +157,18 @@ item_descriptions = {
     item_names.WARHOUND: "Anti-vehicle mech. Haywire missiles do bonus damage to mechanical units.",
     item_names.DOMINION_TROOPER:
         "General-purpose infantry. Can be outfitted with weapons for different combat situations.",
-    item_names.PRIDE_OF_AUGUSTRGRAD: "Powerful Royal Guard warship.",
-    item_names.SKY_FURY: inspect.cleandoc("""
-        Durable Royal Guard support flyer. Loaded with strong anti-capital air missiles. 
-        Can switch into Assault Mode to attack ground units.
-    """),
-    item_names.SHOCK_DIVISION: "Royal Guard heavy tank. Long-range artillery in Siege Mode.",
-    item_names.BLACKHAMMER: "Royal Guard heavy assault mech.",
-    item_names.AEGIS_GUARD: "Royal Guard heavy assault infantry.",
-    item_names.EMPERORS_SHADOW: "Royal Guard specialist. Can use Pyrokinetic Immolation and EMP Blast abilities. Can call down Tactical missiles.",
-    item_names.SON_OF_KORHAL: "Royal Guard general-purpose indantry.",
-    item_names.BULWARK_COMPANY: "Royal Guard heavy-fire support unit.",
-    item_names.FIELD_RESPONSE_THETA: "Royal Guard support trooper. Heals nearby biological units.",
-    item_names.EMPERORS_GUARDIAN: inspect.cleandoc("""
-        Royal Guard artillery fighter. Loaded with missiles that deal area damage to enemy air targets. 
-        Can switch into Defender Mode to provide siege support.
-    """),
-    item_names.NIGHT_HAWK: "Royal Guard highly mobile flying unit. Excellent at surgical strikes.",
-    item_names.NIGHT_WOLF: "Royal Guard tactical-strike aircraft.",
+    item_names.SON_OF_KORHAL: _royal_guard_desc("Marine"),
+    item_names.FIELD_RESPONSE_THETA: _royal_guard_desc("Medic"),
+    item_names.AEGIS_GUARD: _royal_guard_desc("Marauder"),
+    item_names.EMPERORS_SHADOW: _royal_guard_desc("Ghost"),
+    item_names.BULWARK_COMPANY: _royal_guard_desc("Goliath"),
+    item_names.SHOCK_DIVISION: _royal_guard_desc("Siege Tank"),
+    item_names.BLACKHAMMER: _royal_guard_desc("Thor"),
+    item_names.NIGHT_HAWK: _royal_guard_desc("Wraith"),
+    item_names.EMPERORS_GUARDIAN: _royal_guard_desc("Liberator"),
+    item_names.SKY_FURY: _royal_guard_desc("Viking"),
+    item_names.NIGHT_WOLF: _royal_guard_desc("Banshee"),
+    item_names.PRIDE_OF_AUGUSTRGRAD: _royal_guard_desc("Battlecruiser"),
     item_names.PROGRESSIVE_TERRAN_INFANTRY_WEAPON: GENERIC_UPGRADE_TEMPLATE.format("damage", TERRAN, "infantry"),
     item_names.PROGRESSIVE_TERRAN_INFANTRY_ARMOR: GENERIC_UPGRADE_TEMPLATE.format("armor", TERRAN, "infantry"),
     item_names.PROGRESSIVE_TERRAN_VEHICLE_WEAPON: GENERIC_UPGRADE_TEMPLATE.format("damage", TERRAN, "vehicles"),
