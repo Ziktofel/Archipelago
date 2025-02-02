@@ -1052,7 +1052,7 @@ item_table = {
         ItemData(755 + SC2WOL_ITEM_ID_OFFSET, TerranItemType.Armory_7, 9, SC2Race.TERRAN,
                  parent=item_names.MEDIVAC),
     item_names.EMPERORS_SHADOW_SOVEREIGN_TACTICAL_MISSILES:
-        ItemData(756 + SC2WOL_ITEM_ID_OFFSET, TerranItemType.Armory_7, 10, SC2Race.TERRAN,
+        ItemData(756 + SC2WOL_ITEM_ID_OFFSET, TerranItemType.Armory_7, 10, SC2Race.TERRAN, quantity=0,
                  parent=item_names.EMPERORS_SHADOW),
     item_names.DOMINION_TROOPER_B2_HIGH_CAL_LMG:
         ItemData(757 + SC2WOL_ITEM_ID_OFFSET, TerranItemType.Armory_7, 11, SC2Race.TERRAN,
