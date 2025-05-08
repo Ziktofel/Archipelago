@@ -476,8 +476,7 @@ class ItemVariants(Choice):
     """
     For items that were rebalanced, controls which version of the effect appears in-game.
     Current: The current recommended balance level
-    Overpowered: Gives the most powerful variants of all items with variants
-    v3: The balance level that items were at in version 3 of the world (2024 multicampaign release)
+    v3: The balance level that items were at in version 3 of the world (2024 multicampaign release), if available
     """
     display_name = "Item Variants"
     option_current = 0
