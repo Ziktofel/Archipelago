@@ -78,6 +78,7 @@ class TerranItemType(ItemTypeEnum):
     Nova_Gear = "Nova Gear", 13
     Progressive_2 = "Progressive Upgrade", 14
     Unit_2 = "Unit", 15
+    Variants = "Variants", 16
 
 
 class ZergItemType(ItemTypeEnum):
@@ -121,6 +122,7 @@ class ProtossItemType(ItemTypeEnum):
     War_Council = "War Council", 11
     War_Council_2 = "War Council", 12
     ShieldRegeneration = "Shield Regeneration Group", 13
+    Variants = "Variants", 14
 
 
 class FactionlessItemType(ItemTypeEnum):
@@ -162,6 +164,12 @@ class ItemData(typing.NamedTuple):
                 or self.classification == ItemClassification.progression
                 or self.classification == ItemClassification.progression_skip_balancing
         )
+
+
+class ItemVariantData(typing.NamedTuple):
+    type: ItemType
+    number: int
+
 
 @dataclass
 class FilterItem:

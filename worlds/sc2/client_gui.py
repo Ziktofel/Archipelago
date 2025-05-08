@@ -17,11 +17,13 @@ from kivy.properties import StringProperty, BooleanProperty
 from kivy.core.window import Window
 
 from .client import SC2Context, calc_unfinished_nodes
-from .item.item_descriptions import item_descriptions
-from .mission_tables import lookup_id_to_mission, campaign_race_exceptions, \
+from .item.item_descriptions import item_descriptions, all_variant_descriptions
+from .mission_tables import (
+    lookup_id_to_mission, campaign_race_exceptions,
     SC2Mission, SC2Race
+)
 from .locations import LocationType, lookup_location_id_to_type, lookup_location_id_to_flags
-from .options import LocationInclusion, MissionOrderScouting
+from .options import LocationInclusion, MissionOrderScouting, ItemVariants
 from . import SC2World
 
 
@@ -95,7 +97,9 @@ class SC2JSONtoKivyParser(KivyJSONtoTextParser):
             item_types.append("normal")
 
         # TODO: Some descriptions are too long and get cut off. Is there a general solution or does someone need to manually check every description?
-        desc = item_descriptions[item_name].replace(". \n", ".<br>").replace(". ", ".<br>").replace("\n", "<br>")
+        desc = item_descriptions[item_name]
+        desc = all_variant_descriptions.get(self.ctx.item_variant, {}).get(item_name, desc)
+        desc = desc.replace(". \n", ".<br>").replace(". ", ".<br>").replace("\n", "<br>")
         ref = "Item Class: " + ", ".join(item_types) + "<br><br>" + desc
         node.setdefault("refs", []).append(ref)
         return super(KivyJSONtoTextParser, self)._handle_item_name(node)

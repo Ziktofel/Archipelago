@@ -36,7 +36,7 @@ from .options import (
     DisableForcedCamera, SkipCutscenes, GrantStoryTech, GrantStoryLevels, TakeOverAIAllies, RequiredTactics,
     SpearOfAdunPresence, SpearOfAdunPresentInNoBuild, SpearOfAdunPassiveAbilityPresence,
     SpearOfAdunPassivesPresentInNoBuild, EnableVoidTrade, VoidTradeAgeLimit, void_trade_age_limits_ms,
-    DifficultyDamageModifier, MissionOrderScouting, GenericUpgradeResearchSpeedup, MercenaryHighlanders
+    DifficultyDamageModifier, MissionOrderScouting, GenericUpgradeResearchSpeedup, MercenaryHighlanders,
 )
 from .mission_order.slot_data import CampaignSlotData, LayoutSlotData, MissionSlotData
 from .mission_order.entry_rules import SubRuleRuleData, CountMissionsRuleData, MissionEntryRules
@@ -57,8 +57,8 @@ from worlds._sc2common.bot.data import Race
 from worlds._sc2common.bot.main import run_game
 from worlds._sc2common.bot.player import Bot
 from .item.item_tables import (
-    lookup_id_to_name, get_full_item_list, ItemData,
-    ZergItemType, ProtossItemType, upgrade_bundles,
+    lookup_id_to_name, get_full_item_list, v3_variant_item_data, ItemData, ItemVariantData,
+    TerranItemType, ZergItemType, ProtossItemType, upgrade_bundles,
     WEAPON_ARMOR_UPGRADE_MAX_LEVEL,
 )
 from .locations import SC2WOL_LOC_ID_OFFSET, LocationType, LocationFlag, SC2HOTS_LOC_ID_OFFSET, VICTORY_CACHE_OFFSET
@@ -381,6 +381,7 @@ class StarcraftClientProcessor(ClientCommandProcessor):
 
         configurable_options = (
             ConfigurableOptionInfo('speed', 'game_speed', options.GameSpeed),
+            ConfigurableOptionInfo('item_variants', 'item_variant', options.ItemVariants),
             ConfigurableOptionInfo('kerrigan_presence', 'kerrigan_presence', options.KerriganPresence, can_break_logic=True),
             ConfigurableOptionInfo('kerrigan_level_cap', 'kerrigan_total_level_cap', options.KerriganTotalLevelCap, ConfigurableOptionType.INTEGER, can_break_logic=True),
             ConfigurableOptionInfo('kerrigan_mission_level_cap', 'kerrigan_levels_per_mission_completed_cap', options.KerriganLevelsPerMissionCompletedCap, ConfigurableOptionType.INTEGER),
@@ -654,6 +655,7 @@ class SC2Context(CommonContext):
         self.trade_lock_start: typing.Optional[float] = None
         self.trade_response: typing.Optional[str] = None
         self.difficulty_damage_modifier: int = DifficultyDamageModifier.default
+        self.item_variant: int = options.ItemVariants.default
         self.mission_order_scouting = MissionOrderScouting.option_none
         self.mission_item_classification: typing.Optional[typing.Dict[str, int]] = None
 
@@ -856,6 +858,9 @@ class SC2Context(CommonContext):
             self.trade_enabled = args["slot_data"].get("enable_void_trade", EnableVoidTrade.option_false)
             self.trade_age_limit = args["slot_data"].get("void_trade_age_limit", VoidTradeAgeLimit.default)
             self.difficulty_damage_modifier = args["slot_data"].get("difficulty_damage_modifier", DifficultyDamageModifier.option_true)
+            self.item_variant = args["slot_data"].get("item_variants", options.ItemVariants.option_current)
+            if self.slot_data_version < 4:
+                self.item_variant = options.ItemVariants.option_v3
             self.mission_order_scouting = args["slot_data"].get("mission_order_scouting", MissionOrderScouting.option_none)
             self.mission_item_classification = args["slot_data"].get("mission_item_classification")
 
@@ -1365,20 +1370,13 @@ def calculate_items(ctx: SC2Context) -> typing.Dict[SC2Race, typing.List[int]]:
         for compat_item in API3_TO_API4_COMPAT_ITEMS:
             items.extend(compat_item_to_network_items(compat_item))
         received_item_ids = set(item.item for item in ctx.items_received if item.player == ctx.slot)
-        if item_list[item_names.GHOST_PROGRESSIVE_RESOURCE_EFFICIENCY].code in received_item_ids:
-            items.append(create_network_item(item_names.GHOST_PROGRESSIVE_RESOURCE_EFFICIENCY))
-        if item_list[item_names.SPECTRE_PROGRESSIVE_RESOURCE_EFFICIENCY].code in received_item_ids:
-            items.append(create_network_item(item_names.SPECTRE_PROGRESSIVE_RESOURCE_EFFICIENCY))
         if item_list[item_names.ROGUE_FORCES].code in received_item_ids:
             items.append(create_network_item(item_names.UNRESTRICTED_MUTATION))
-        if item_list[item_names.SCOUT_PROGRESSIVE_RESOURCE_EFFICIENCY].code in received_item_ids:
-            items.append(create_network_item(item_names.SCOUT_PROGRESSIVE_RESOURCE_EFFICIENCY))
-        if item_list[item_names.SCOUT_ADVANCED_PHOTON_BLASTERS].code in received_item_ids:
-            items.append(create_network_item(item_names.SCOUT_GAMMA_PHOTON_BLASTERS))
-        if item_list[item_names.REAVER_PROGRESSIVE_RESOURCE_EFFICIENCY].code in received_item_ids:
-            items.append(create_network_item(item_names.REAVER_PROGRESSIVE_RESOURCE_EFFICIENCY))
-        if item_list[item_names.ORACLE_PROGRESSIVE_STASIS_CALIBRATION].code in received_item_ids:
-            items.append(create_network_item(item_names.ORACLE_PROGRESSIVE_STASIS_CALIBRATION))
+    
+    variants_table = {
+        options.ItemVariants.option_current: item_list,
+        options.ItemVariants.option_v3: v3_variant_item_data,
+    }
 
     # API < 4 Orbital Command Count (Deprecated item)
     orbital_command_count: int = 0
@@ -1396,21 +1394,25 @@ def calculate_items(ctx: SC2Context) -> typing.Dict[SC2Race, typing.List[int]]:
     for network_item in items:
         name: str = lookup_id_to_name[network_item.item]
         item_data: ItemData = item_list[name]
+        variant_data: ItemData | ItemVariantData = variants_table[ctx.item_variant].get(
+            name,
+            item_data,
+        )
 
-        if item_data.type.flag_word < 0:
+        if variant_data.type.flag_word < 0:
             continue
 
         # exists exactly once
         if item_data.quantity == 1 or name in item_name_groups[ItemGroupNames.UNRELEASED_ITEMS]:
-            accumulators[item_data.race][item_data.type.flag_word] |= 1 << item_data.number
+            accumulators[item_data.race][variant_data.type.flag_word] |= 1 << variant_data.number
 
         # exists multiple times
         elif item_data.quantity > 1:
-            flaggroup = item_data.type.flag_word
+            flaggroup = variant_data.type.flag_word
 
             # Generic upgrades apply only to Weapon / Armor upgrades
-            if item_data.number >= 0:
-                accumulators[item_data.race][flaggroup] += 1 << item_data.number
+            if variant_data.number >= 0:
+                accumulators[item_data.race][flaggroup] += 1 << variant_data.number
             else:
                 if name == item_names.PROGRESSIVE_PROTOSS_GROUND_UPGRADE:
                     shields_from_ground_upgrade += 1
@@ -1421,27 +1423,27 @@ def calculate_items(ctx: SC2Context) -> typing.Dict[SC2Race, typing.List[int]]:
 
             # Regen bio-steel nerf with API3 - undo for older games
             if ctx.slot_data_version < 3 and name == item_names.PROGRESSIVE_REGENERATIVE_BIO_STEEL:
-                current_level = (accumulators[item_data.race][flaggroup] >> item_data.number) % 4
+                current_level = (accumulators[item_data.race][flaggroup] >> variant_data.number) % 4
                 if current_level == 2:
                     # Switch from level 2 to level 3 for compatibility
-                    accumulators[item_data.race][flaggroup] += 1 << item_data.number
+                    accumulators[item_data.race][flaggroup] += 1 << variant_data.number
         # sum
         # Fillers, deprecated items
         else:
             if name == item_names.PROGRESSIVE_ORBITAL_COMMAND:
                 orbital_command_count += 1
-            elif item_data.type == ZergItemType.Level:
-                accumulators[item_data.race][item_data.type.flag_word] += item_data.number
+            elif variant_data.type == ZergItemType.Level:
+                accumulators[item_data.race][variant_data.type.flag_word] += variant_data.number
             elif name == item_names.STARTING_MINERALS:
-                accumulators[item_data.race][item_data.type.flag_word] += ctx.minerals_per_item
+                accumulators[item_data.race][variant_data.type.flag_word] += ctx.minerals_per_item
             elif name == item_names.STARTING_VESPENE:
-                accumulators[item_data.race][item_data.type.flag_word] += ctx.vespene_per_item
+                accumulators[item_data.race][variant_data.type.flag_word] += ctx.vespene_per_item
             elif name == item_names.STARTING_SUPPLY:
-                accumulators[item_data.race][item_data.type.flag_word] += ctx.starting_supply_per_item
+                accumulators[item_data.race][variant_data.type.flag_word] += ctx.starting_supply_per_item
             elif name == item_names.UPGRADE_RESEARCH_COST:
-                accumulators[item_data.race][item_data.type.flag_word] += ctx.research_cost_reduction_per_item
+                accumulators[item_data.race][variant_data.type.flag_word] += ctx.research_cost_reduction_per_item
             else:
-                accumulators[item_data.race][item_data.type.flag_word] += 1
+                accumulators[item_data.race][variant_data.type.flag_word] += 1
 
     # Fix Shields from generic upgrades by unit class (Maximum of ground/air upgrades)
     if shields_from_ground_upgrade > 0 or shields_from_air_upgrade > 0:
