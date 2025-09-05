@@ -112,8 +112,10 @@ class SC2Logic:
     def get_very_hard_required_upgrade_level(self):
         return 2 if self.advanced_tactics else 3
 
-    def weapon_armor_upgrade_count(self, upgrade_item: str, state: CollectionState) -> int:
+    def weapon_armor_upgrade_count(self, upgrade_item: str, state: CollectionState, use_cache: bool = True) -> int:
         assert upgrade_item in upgrade_bundle_inverted_lookup.keys()
+        if use_cache and self.is_item_placement(state) and hasattr(state, "weapon_armor_upgrade_logic_cache"):
+            return state.weapon_armor_upgrade_logic_cache[upgrade_item]
         count: int = 0
         if self.generic_upgrade_missions > 0:
             if (not self.is_item_placement(state)) or self.logic_level == RequiredTactics.option_no_logic:

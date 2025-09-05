@@ -10,7 +10,7 @@ from . import location_groups
 from .item.item_groups import unreleased_items, war_council_upgrades
 from .item.item_tables import (
     get_full_item_list,
-    not_balanced_starting_units, WEAPON_ARMOR_UPGRADE_MAX_LEVEL,
+    not_balanced_starting_units, WEAPON_ARMOR_UPGRADE_MAX_LEVEL, upgrade_bundle_inverted_lookup, upgrade_bundles,
 )
 from .item import FilterItem, ItemFilterFlags, StarcraftItem, item_groups, item_names, item_tables, item_parents, \
     ZergItemType, ProtossItemType, ItemData
@@ -341,6 +341,34 @@ class SC2World(World):
                                 for location in self.get_region(mission.mission_name).get_locations():
                                     if location.address is not None:
                                         hint_data[self.player][location.address] = mission_position_name
+
+    def collect(self, state: "CollectionState", item: "Item") -> bool:
+        change = super().collect(state, item)
+        if change:
+            self.update_cache(state, item)
+        return change
+
+    def remove(self, state: "CollectionState", item: "Item") -> bool:
+        change = super().remove(state, item)
+        if change:
+            self.update_cache(state, item)
+        return change
+
+    def update_cache(self, state: "CollectionState", item: "Item") -> None:
+        if not hasattr(state, "weapon_armor_upgrade_logic_cache"):
+            state.weapon_armor_upgrade_logic_cache = {item_name: 0 for item_name in upgrade_bundle_inverted_lookup.keys()}
+        if item.name in upgrade_bundles.keys():
+            for affected_upgrade in upgrade_bundles[item.name]:
+                state.weapon_armor_upgrade_logic_cache[affected_upgrade] = self.logic.weapon_armor_upgrade_count(affected_upgrade, state, False)
+        if item.name in upgrade_bundle_inverted_lookup.keys():
+            state.weapon_armor_upgrade_logic_cache[item.name] = self.logic.weapon_armor_upgrade_count(item.name, state, False)
+        if item.name == item_names.QUATRO:
+            for affected_upgrade in upgrade_bundles[item_names.PROGRESSIVE_PROTOSS_WEAPON_ARMOR_UPGRADE]:
+                state.weapon_armor_upgrade_logic_cache[affected_upgrade] = self.logic.weapon_armor_upgrade_count(affected_upgrade, state, False)
+        if self.options.generic_upgrade_missions > 0 and item.name in item_groups.item_name_groups["Missions"]:
+            for affected_upgrade in upgrade_bundle_inverted_lookup.keys():
+                state.weapon_armor_upgrade_logic_cache[affected_upgrade] = self.logic.weapon_armor_upgrade_count(affected_upgrade, state, False)
+
 
 
 def _get_column_display(index: int, single_row_layout: bool) -> str:
