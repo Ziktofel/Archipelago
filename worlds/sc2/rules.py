@@ -38,7 +38,7 @@ from .item.item_tables import (
 )
 from .mission_tables import SC2Race, SC2Campaign
 from .item import item_groups, item_names
-from .item.virtual_items import LogicEffect
+from .item.virtual_items import LogicEffect, CachedRuleEffect
 
 if TYPE_CHECKING:
     from . import SC2World
@@ -50,6 +50,22 @@ def min2(left: int, right: int) -> int:
         return left
     return right
 
+class CachedBooleanRule:
+    def __init__(self, logic: "SC2Logic", virtual_item: CachedRuleEffect, rule: Callable[[CollectionState], bool]):
+        self.logic = logic
+        self.virtual_item = virtual_item
+        self.rule = rule
+
+    def __call__(self, state: CollectionState, *args, **kwargs):
+        if state.has(self.virtual_item.name, self.logic.player):
+            return state.count(self.virtual_item.name, self.logic.player) >= 2
+        result = self.rule(state, *args, **kwargs)
+        if hasattr(state, "prog_items"):
+            if result:
+                state.prog_items[self.logic.player][self.virtual_item.name] = 2
+            else:
+                state.prog_items[self.logic.player][self.virtual_item.name] = 1
+        return result
 
 class SC2Logic:
     def __init__(self, world: Optional["SC2World"]) -> None:
@@ -102,6 +118,9 @@ class SC2Logic:
 
         self.unit_count_functions: Dict[Tuple[SC2Race, int], Callable[[CollectionState], bool]] = {}
         """Cache of logic functions used by any_units logic level"""
+
+        # Cached rules
+        self.terran_competent_comp = CachedBooleanRule(self, CachedRuleEffect.TERRAN_COMPETENT_COMP, lambda state: self.terran_competent_comp_impl(state))
 
     # Super Globals
 
@@ -421,7 +440,7 @@ class SC2Logic:
             defense_score += 2
         return defense_score
 
-    def terran_competent_comp(self, state: CollectionState) -> bool:
+    def terran_competent_comp_impl(self, state: CollectionState) -> bool:
         # All competent comps require anti-air
         if not self.terran_competent_anti_air(state):
             return False

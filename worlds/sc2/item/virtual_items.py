@@ -146,6 +146,14 @@ LOGIC_MINIMUM_COUNTERS = {
     item_table[item_names.PROGRESSIVE_PROTOSS_WEAPON_ARMOR_UPGRADE].code: LogicEffect.PROTOSS_UPGRADE,
 }
 
+class CachedRuleEffect(enum.IntFlag):
+    NONE = enum.auto()
+    TERRAN_COMPETENT_COMP = enum.auto()
+
+def clear_cached_rules_cache(inventory: "Counter[str]") -> None:
+    for effect in CachedRuleEffect:
+        inventory[effect.name] = 0
+
 
 def after_add_item(inventory: "Counter[str]", item: "Item") -> None:
     effects, count = LOGIC_EFFECTS.get(item.code, (LogicEffect.NONE, 0))
@@ -157,6 +165,7 @@ def after_add_item(inventory: "Counter[str]", item: "Item") -> None:
         inventory[min_counter.name] = min(
             inventory[effect.name] for effect in min_counter
         )
+    clear_cached_rules_cache(inventory)
 
 def after_remove_item(inventory: "Counter[str]", item: "Item") -> None:
     effects, count = LOGIC_EFFECTS.get(item.code, (LogicEffect.NONE, 0))
@@ -167,3 +176,4 @@ def after_remove_item(inventory: "Counter[str]", item: "Item") -> None:
     if min_counter:
         if inventory[min_counter.name] > inventory[item.name]:
             inventory[min_counter.name] = inventory[item.name]
+    clear_cached_rules_cache(inventory)
