@@ -139,7 +139,7 @@ class SC2Mission(Enum):
     PIERCING_OF_THE_SHROUD = 21, "Piercing the Shroud", SC2Campaign.WOL, "Rebellion", SC2Race.TERRAN, MissionPools.STARTER, "ap_piercing_the_shroud", MissionFlag.Terran|MissionFlag.NoBuild|MissionFlag.VsAll
     GATES_OF_HELL = 26, "Gates of Hell (Terran)", SC2Campaign.WOL, "Char", SC2Race.TERRAN, MissionPools.HARD, "ap_gates_of_hell", MissionFlag.Terran|MissionFlag.VsZerg|MissionFlag.HasRaceSwap
     BELLY_OF_THE_BEAST = 27, "Belly of the Beast", SC2Campaign.WOL, "Char", SC2Race.ANY, MissionPools.STARTER, "ap_belly_of_the_beast", MissionFlag.Terran|MissionFlag.NoBuild|MissionFlag.VsZerg
-    SHATTER_THE_SKY = 28, "Shatter the Sky (Terran)", SC2Campaign.WOL, "Char", SC2Race.TERRAN, MissionPools.MEDIUM, "ap_shatter_the_sky", MissionFlag.Terran|MissionFlag.VsZerg|MissionFlag.HasRaceSwap
+    SHATTER_THE_SKY = 28, "Shatter the Sky (Terran)", SC2Campaign.WOL, "Char", SC2Race.TERRAN, MissionPools.HARD, "ap_shatter_the_sky", MissionFlag.Terran|MissionFlag.VsZerg|MissionFlag.HasRaceSwap
     ALL_IN = 29, "All-In (Terran)", SC2Campaign.WOL, "Char", SC2Race.TERRAN, MissionPools.VERY_HARD, "ap_all_in", MissionFlag.Terran|MissionFlag.TimedDefense|MissionFlag.VsZerg|MissionFlag.HasRaceSwap
 
     # Prophecy
