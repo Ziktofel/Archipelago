@@ -21,7 +21,6 @@ import random
 import concurrent.futures
 import time
 import uuid
-import argparse
 from pathlib import Path
 
 # CommonClient import first to trigger ModuleUpdater
@@ -1014,9 +1013,16 @@ class SC2Context(CommonContext):
 
         super(SC2Context, self).on_print_json(args)
 
+    def make_gui(self) -> "type[SC2Manager]":
+        from .client_gui import SC2Manager
+        return SC2Manager
+
     def run_gui(self) -> None:
-        from .client_gui import start_gui
-        start_gui(self)
+        super(SC2Context, self).run_gui()
+        import pkgutil
+        from kivy.lang import Builder
+        data = pkgutil.get_data(SC2World.__module__, "starcraft2.kv").decode()
+        Builder.load_string(data)
 
     async def shutdown(self) -> None:
         await super(SC2Context, self).shutdown()
