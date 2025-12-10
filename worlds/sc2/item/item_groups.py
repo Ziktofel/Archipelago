@@ -175,6 +175,7 @@ class ItemGroupNames:
     NERAZIM_UNITS = "Nerazim"
     TAL_DARIM_UNITS = "Tal'Darim"
     PURIFIER_UNITS = "Purifier"
+    NEXUS_UNITS = "Nexus Units"
 
     VANILLA_ITEMS = "Vanilla Items"
     OVERPOWERED_ITEMS = "Overpowered Items"
@@ -702,7 +703,8 @@ protoss_air_wa = [
     item_names.PHOENIX, item_names.MIRAGE, item_names.CORSAIR, item_names.SKIRMISHER,
     item_names.VOID_RAY, item_names.DESTROYER, item_names.PULSAR, item_names.DAWNBRINGER,
     item_names.CARRIER, item_names.SKYLORD, item_names.TRIREME,
-    item_names.SCOUT, item_names.TEMPEST, item_names.MOTHERSHIP,
+    item_names.SCOUT, item_names.TEMPEST, item_names.MOTHERSHIP_TALDARIM,
+    item_names.MOTHERSHIP_AIUR, item_names.MOTHERSHIP_PURIFIER,
     item_names.ARBITER, item_names.ORACLE, item_names.OPPRESSOR,
     item_names.CALADRIUS, item_names.MISTWING,
 ]
@@ -720,7 +722,7 @@ item_name_groups[ItemGroupNames.LOTV_UNITS] = lotv_units = [
     item_names.COLOSSUS, item_names.WRATHWALKER, item_names.REAVER,
     item_names.PHOENIX, item_names.MIRAGE, item_names.CORSAIR,
     item_names.VOID_RAY, item_names.DESTROYER, item_names.ARBITER,
-    item_names.CARRIER, item_names.TEMPEST, item_names.MOTHERSHIP,
+    item_names.CARRIER, item_names.TEMPEST, item_names.MOTHERSHIP_TALDARIM,
 ]
 item_name_groups[ItemGroupNames.PROPHECY_UNITS] = prophecy_units = [
     item_names.ZEALOT, item_names.STALKER, item_names.HIGH_TEMPLAR, item_names.DARK_TEMPLAR,
@@ -748,9 +750,12 @@ item_name_groups[ItemGroupNames.STARGATE_UNITS] = stargate_units = [
     item_names.PHOENIX, item_names.SKIRMISHER, item_names.MIRAGE, item_names.CORSAIR,
     item_names.VOID_RAY, item_names.DESTROYER, item_names.PULSAR, item_names.DAWNBRINGER,
     item_names.CARRIER, item_names.SKYLORD, item_names.TRIREME,
-    item_names.TEMPEST, item_names.SCOUT, item_names.MOTHERSHIP,
+    item_names.TEMPEST, item_names.SCOUT, item_names.MOTHERSHIP_TALDARIM,
     item_names.ARBITER, item_names.ORACLE, item_names.OPPRESSOR,
     item_names.CALADRIUS, item_names.MISTWING,
+]
+item_name_groups[ItemGroupNames.NEXUS_UNITS] = nexus_units = [
+    item_names.MOTHERSHIP_AIUR, item_names.MOTHERSHIP_PURIFIER,
 ]
 item_name_groups[ItemGroupNames.PROTOSS_BUILDINGS] = protoss_buildings = [
     item_name for item_name, item_data in item_tables.item_table.items()
@@ -758,7 +763,7 @@ item_name_groups[ItemGroupNames.PROTOSS_BUILDINGS] = protoss_buildings = [
 ]
 item_name_groups[ItemGroupNames.AIUR_UNITS] = [
     item_names.ZEALOT, item_names.DRAGOON, item_names.SENTRY, item_names.AVENGER, item_names.HIGH_TEMPLAR,
-    item_names.IMMORTAL, item_names.REAVER,
+    item_names.IMMORTAL, item_names.REAVER, item_names.MOTHERSHIP_AIUR, 
     item_names.PHOENIX, item_names.SCOUT, item_names.ARBITER, item_names.CARRIER,
 ]
 item_name_groups[ItemGroupNames.NERAZIM_UNITS] = [
@@ -769,13 +774,13 @@ item_name_groups[ItemGroupNames.NERAZIM_UNITS] = [
 item_name_groups[ItemGroupNames.TAL_DARIM_UNITS] = [
     item_names.SUPPLICANT, item_names.SLAYER, item_names.HAVOC, item_names.BLOOD_HUNTER, item_names.ASCENDANT,
     item_names.VANGUARD, item_names.WRATHWALKER,
-    item_names.SKIRMISHER, item_names.DESTROYER, item_names.SKYLORD, item_names.MOTHERSHIP, item_names.OPPRESSOR,
+    item_names.SKIRMISHER, item_names.DESTROYER, item_names.SKYLORD, item_names.MOTHERSHIP_TALDARIM, item_names.OPPRESSOR,
 ]
 item_name_groups[ItemGroupNames.PURIFIER_UNITS] = [
     item_names.SENTINEL, item_names.ADEPT, item_names.INSTIGATOR, item_names.ENERGIZER,
     item_names.STALWART, item_names.COLOSSUS, item_names.DISRUPTOR,
     item_names.MIRAGE, item_names.DAWNBRINGER, item_names.TRIREME, item_names.TEMPEST,
-    item_names.CALADRIUS,
+    item_names.CALADRIUS, item_names.MOTHERSHIP_PURIFIER,
 ]
 item_name_groups[ItemGroupNames.SOA_ITEMS] = soa_items = [
     *[item_name for item_name, item_data in item_tables.item_table.items() if item_data.type == item_tables.ProtossItemType.Spear_Of_Adun],
@@ -859,7 +864,7 @@ item_name_groups[ItemGroupNames.OVERPOWERED_ITEMS] = overpowered_items = [
 
     # Protoss general
     item_names.QUATRO,
-    item_names.MOTHERSHIP_INTEGRATED_POWER,
+    item_names.MOTHERSHIP_TALDARIM_INTEGRATED_POWER,
     item_names.IMMORTAL_ANNIHILATOR_ADVANCED_TARGETING,
 
     # Mindless Broodwar garbage

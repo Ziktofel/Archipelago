@@ -1301,7 +1301,10 @@ class SC2Logic:
                     item_names.CARRIER,
                     item_names.SKYLORD,
                     item_names.TEMPEST,
-                    item_names.MOTHERSHIP,
+                    item_names.MOTHERSHIP_TALDARIM,
+                    # Nexus
+                    item_names.MOTHERSHIP_AIUR,
+                    item_names.MOTHERSHIP_PURIFIER,
                     # Buildings
                     item_names.NEXUS_OVERCHARGE,
                     item_names.PHOTON_CANNON,
@@ -1334,7 +1337,8 @@ class SC2Logic:
                     item_names.SKYLORD,
                     item_names.SCOUT,
                     item_names.DARK_ARCHON,
-                    item_names.MOTHERSHIP,
+                    item_names.MOTHERSHIP_TALDARIM,
+                    item_names.MOTHERSHIP_PURIFIER,
                     item_names.MISTWING,
                     item_names.CALADRIUS,
                     item_names.OPPRESSOR,
@@ -1347,7 +1351,8 @@ class SC2Logic:
             or state.has_all({item_names.WRATHWALKER, item_names.WRATHWALKER_AERIAL_TRACKING}, self.player)
             or state.has_all({item_names.WARP_PRISM, item_names.WARP_PRISM_PHASE_BLASTER}, self.player)
             or self.advanced_tactics
-            and state.has_any({item_names.HIGH_TEMPLAR, item_names.SIGNIFIER, item_names.SENTRY, item_names.ENERGIZER}, self.player)
+            and state.has_any({item_names.HIGH_TEMPLAR, item_names.SIGNIFIER, item_names.SENTRY, item_names.ENERGIZER,
+                               item_names.MOTHERSHIP_AIUR}, self.player)
             or self.protoss_can_merge_archon(state)
             or self.protoss_can_merge_dark_archon(state)
         )
@@ -2447,7 +2452,9 @@ class SC2Logic:
                     item_names.DESTROYER,
                     item_names.PULSAR,
                     item_names.DAWNBRINGER,
-                    item_names.MOTHERSHIP,
+                    item_names.MOTHERSHIP_TALDARIM,
+                    item_names.MOTHERSHIP_PURIFIER,
+                    item_names.MOTHERSHIP_AIUR,
                 },
                 self.player,
             )
@@ -3546,7 +3553,10 @@ class SC2Logic:
                     item_names.TRIREME,
                     item_names.SKYLORD,
                     item_names.TEMPEST,
-                    item_names.MOTHERSHIP,
+                    item_names.MOTHERSHIP_TALDARIM,
+                    # Nexus
+                    item_names.MOTHERSHIP_AIUR,
+                    item_names.MOTHERSHIP_PURIFIER,
                 ), self.player)
                 or state.has_all((item_names.WARP_PRISM, item_names.WARP_PRISM_PHASE_BLASTER), self.player)
                 or state.has_all((item_names.CALADRIUS, item_names.CALADRIUS_CORONA_BEAM), self.player)

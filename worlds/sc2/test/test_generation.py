@@ -1225,4 +1225,4 @@ class TestItemFiltering(Sc2SetupTestBase):
         starting_inventory = [item.name for item in self.multiworld.precollected_items[self.player]]
 
         # A unit nerf happens due to excluding OP items
-        self.assertNotIn(item_names.MOTHERSHIP_INTEGRATED_POWER, starting_inventory)
+        self.assertNotIn(item_names.MOTHERSHIP_TALDARIM_INTEGRATED_POWER, starting_inventory)
