@@ -21,6 +21,7 @@ TERRAN_MERCENARIES = "Terran Mercenaries"
 # Zerg
 ANY_NYDUS_WORM = "Any Nydus Worm"
 BANELING_SOURCE = "Any Baneling Source"  # Baneling aspect | Kerrigan Spawn Banelings
+HIVE_QUEEN_OR_SWARM_QUEEN = "Hive Queen | Swarm Queen"
 INFESTED_UNITS = "Infested Units"
 INFESTED_FACTORY_OR_STARPORT = "Infested Factory or Starport"
 MORPH_SOURCE_AIR = "Air Morph Source"  # Morphling | Mutalisk | Corruptor

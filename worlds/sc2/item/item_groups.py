@@ -613,7 +613,10 @@ item_name_groups[ItemGroupNames.ZERG_MORPHS] = zerg_morphs = [
 item_name_groups[ItemGroupNames.ZERG_UNITS] = zerg_units = zerg_nonmorph_units + zerg_morphs
 # For W/A upgrades
 zerg_ground_units = [
-    item_names.ZERGLING, item_names.SWARM_QUEEN, item_names.ROACH, item_names.HYDRALISK, item_names.ABERRATION,
+    item_names.ZERGLING,
+    item_names.HIVE_QUEEN,
+    item_names.SWARM_QUEEN,
+    item_names.ROACH, item_names.HYDRALISK, item_names.ABERRATION,
     item_names.SWARM_HOST, item_names.INFESTOR, item_names.ULTRALISK, item_names.BANELING,
     item_names.LURKER, item_names.IMPALER, item_names.TYRANNOZOR,
     item_names.RAVAGER, item_names.DEFILER, item_names.PRIMAL_IGNITER,
@@ -626,7 +629,9 @@ zerg_melee_wa = [
     item_names.TYRANNOZOR, item_names.INFESTED_BUNKER, item_names.PYGALISK,
 ]
 zerg_ranged_wa = [
-    item_names.SWARM_QUEEN, item_names.ROACH, item_names.HYDRALISK, item_names.SWARM_HOST,
+    item_names.HIVE_QUEEN,
+    item_names.SWARM_QUEEN,
+    item_names.ROACH, item_names.HYDRALISK, item_names.SWARM_HOST,
     item_names.LURKER, item_names.IMPALER, item_names.TYRANNOZOR,
     item_names.RAVAGER, item_names.PRIMAL_IGNITER, item_names.INFESTED_MARINE,
     item_names.INFESTED_BUNKER, item_names.INFESTED_DIAMONDBACK, item_names.INFESTED_SIEGE_TANK,
@@ -741,7 +746,7 @@ item_name_groups[ItemGroupNames.ZERG_SC1_UNITS] = [
 ]
 item_name_groups[ItemGroupNames.ZERG_LADDER_UNITS] = [
     item_names.ZERGLING,
-    item_names.SWARM_QUEEN,  # Replace: Hive Queen
+    item_names.HIVE_QUEEN,
     item_names.BANELING,
     item_names.ROACH,
     item_names.RAVAGER,
@@ -839,7 +844,7 @@ item_name_groups[ItemGroupNames.INFESTED_TERRAN_ITEMS] = (
 # Co-op Zerg
 item_name_groups[ItemGroupNames.COOP_KERRIGAN_UNITS] = [
     item_names.ZERGLING,
-    item_names.SWARM_QUEEN,  # Not implemented: Hive Queen
+    item_names.HIVE_QUEEN,
     item_names.HYDRALISK,
     item_names.LURKER,
     item_names.ULTRALISK,
@@ -848,7 +853,7 @@ item_name_groups[ItemGroupNames.COOP_KERRIGAN_UNITS] = [
 ]
 item_name_groups[ItemGroupNames.COOP_ZAGARA_UNITS] = [
     item_names.ZERGLING,
-    item_names.SWARM_QUEEN,  # Not implemented: Hive Queen
+    item_names.HIVE_QUEEN,
     item_names.BANELING,
     item_names.ABERRATION,
     item_names.SCOURGE,

@@ -139,6 +139,7 @@ parent_present[parent_names.BANELING_SOURCE] = AnyOf(
     (item_names.BANELING, item_names.KERRIGAN_SPAWN_BANELINGS),
     item_names.BANELING,
 )
+parent_present[parent_names.HIVE_QUEEN_OR_SWARM_QUEEN] = AnyOf((item_names.HIVE_QUEEN, item_names.SWARM_QUEEN), main_item=item_names.SWARM_QUEEN)
 parent_present[parent_names.INFESTED_UNITS] = AnyOf(item_groups.infterr_units, display_string='Infested')
 parent_present[parent_names.INFESTED_FACTORY_OR_STARPORT] = AnyOf(
     (item_names.INFESTED_DIAMONDBACK, item_names.INFESTED_SIEGE_TANK, item_names.INFESTED_LIBERATOR, item_names.INFESTED_BANSHEE, item_names.BULLFROG)

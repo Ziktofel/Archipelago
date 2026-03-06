@@ -74,6 +74,7 @@ ITEM_NAME_ANNOTATIONS = {
 
     item_names.ZERGLING:             "(Larva)",
     item_names.SWARM_QUEEN:          "(Hatchery)",
+    item_names.HIVE_QUEEN:           "(Hatchery)",
     item_names.ROACH:                "(Larva)",
     item_names.HYDRALISK:            "(Larva)",
     item_names.ABERRATION:           "(Larva)",
